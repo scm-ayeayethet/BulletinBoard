@@ -84,6 +84,7 @@ export class PostsListComponent implements OnInit {
 
   //post edit
   editPost(postId: number) {
+    this.router.navigate(['/post/' + postId])
   }
 
   //post delete
@@ -92,6 +93,7 @@ export class PostsListComponent implements OnInit {
 
   //post create
   createPost() {
+    this.router.navigate(['/post']);
   }
 
   //post upload

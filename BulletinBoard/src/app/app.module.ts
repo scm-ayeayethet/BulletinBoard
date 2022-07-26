@@ -9,13 +9,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './users/login/login.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { PlainmodalComponent } from './components/plainmodal/plainmodal.component';
+import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PostsListComponent,
-    PlainmodalComponent
+    PlainmodalComponent,
+    CreateUpdateConfirmComponent
   ],
   imports: [
     BrowserModule,
