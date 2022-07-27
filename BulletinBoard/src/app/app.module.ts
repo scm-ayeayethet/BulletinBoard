@@ -10,6 +10,7 @@ import { LoginComponent } from './users/login/login.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { PlainmodalComponent } from './components/plainmodal/plainmodal.component';
 import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
+import { PostModalComponent } from './components/post-modal/post-modal.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/crea
     LoginComponent,
     PostsListComponent,
     PlainmodalComponent,
-    CreateUpdateConfirmComponent
+    CreateUpdateConfirmComponent,
+    PostModalComponent
   ],
   imports: [
     BrowserModule,

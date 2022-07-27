@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { POSTS } from 'src/app/constants/constants';
 import { USERS } from 'src/app/constants/constants';
+import { PostModalComponent } from 'src/app/components/post-modal/post-modal.component';
 
 @Component({
   selector: 'app-posts-list',
@@ -14,12 +15,9 @@ import { USERS } from 'src/app/constants/constants';
 })
 export class PostsListComponent implements OnInit {
 
-  public postDetail: any = [];
   public allPost: any = [];
-  public eachPost: any = [];
   public eachData: any = [];
   public userInfo: any = [];
-  public postListDetail: any = [];
   public postId: any;
 
   dataSource!: MatTableDataSource<any>;
@@ -89,6 +87,30 @@ export class PostsListComponent implements OnInit {
 
   //post delete
   deletePost(postId: any) {
+    const deletedParam = POSTS.filter(res => res.id === postId);
+    this.eachData = deletedParam;
+
+    const param = this.eachData.map((result: any) => {
+      return {
+        "title": result.title,
+        "description": result.description,
+        "status": result.status,
+        "created_user_id": result.created_user_id,
+        "updated_user_id": result.updated_user_id,
+        "created_at": result.created_at,
+        "is_removed": true,
+        "deleted_at": new Date()
+      }
+    })
+
+    if (this.userInfo.type === 0) {
+      this.snackBar.open('Admin Deleted Post Successfully!', '', { duration: 3000 });
+      this.getPostData();
+    }
+    else {
+      this.snackBar.open('Post Deleted Successfully!', '', { duration: 3000 });
+      this.getEachPost();
+    }
   }
 
   //post create
@@ -101,6 +123,20 @@ export class PostsListComponent implements OnInit {
   }
 
   //post title details
-  titleDetail(postId: any) {
+  postDetail(postId: any) {
+
+    const details = POSTS.find(res => res.id === postId);
+    this.eachData = details;
+    this.dialog.open(PostModalComponent, {
+      width: '40%',
+      data: {
+        title: this.eachData.title,
+        description: this.eachData.description,
+        status: this.eachData.status,
+        created_user_id: this.eachData.created_user_id,
+        updated_user_id: this.eachData.updated_user_id,
+        created_at: this.eachData.created_at,
+      }
+    });
   }
 }
