@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" *ngIf="showNavBar">
     <div class="nav">
       <span class="title" [routerLink]="['/posts-list']">SCM Bulletin Board</span>
-      <a mat-flat-button color="primary" *ngIf="user?.id && user?.type === 0" [routerLink]="['/user-list']" routerLinkActive="active">Users</a>
+      <a mat-flat-button color="primary" *ngIf="user?.id && user?.type === 0" [routerLink]="['/users-list']" routerLinkActive="active">Users</a>
       <a mat-flat-button color="primary" *ngIf="user?.id && user?.type === 1" [routerLink]="['/user-profile']" routerLinkActive="active">User</a>
       <a mat-flat-button color="primary" [routerLink]="['/posts-list']" routerLinkActive="active">Posts</a>
       <span class="rt-nav">

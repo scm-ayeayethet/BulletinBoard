@@ -20,9 +20,9 @@
     <!-- /Description -->
 
     <!-- Status -->
-    <div class="status" *ngIf="router.url.indexOf('/post') !== -1 && this.postId !== undefined">
+    <div class="status" *ngIf="router.url.indexOf('/post') !== -1">
       <mat-label>Status</mat-label>
-      <mat-slide-toggle (change)="changeToggle($event)" [checked]="isChecked"></mat-slide-toggle>
+      <mat-slide-toggle formControlName="status" ></mat-slide-toggle>
     </div>
     <!-- /Status -->
 

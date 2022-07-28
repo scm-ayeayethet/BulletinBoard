@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { POSTS } from 'src/app/constants/constants';
 import { USERS } from 'src/app/constants/constants';
 import { PostModalComponent } from 'src/app/components/post-modal/post-modal.component';
+import { UploadCsvComponent } from '../upload-csv/upload-csv.component';
 
 @Component({
   selector: 'app-posts-list',
@@ -120,6 +121,13 @@ export class PostsListComponent implements OnInit {
 
   //post upload
   uploadCSV() {
+    let dialogRef = this.dialog.open(UploadCsvComponent, {
+      width: '40%'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.login();
+    })
   }
 
   //post title details

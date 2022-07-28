@@ -35,6 +35,7 @@ export class CreateUpdateConfirmComponent implements OnInit {
     this.postForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.maxLength(255)]),
       description: new FormControl('', [Validators.required]),
+      status: new FormControl(true)
     });
   }
 
@@ -49,15 +50,9 @@ export class CreateUpdateConfirmComponent implements OnInit {
       this.existingPost = POSTS.filter(res => { return res.id == this.postId; });
 
       if (this.existingPost) {
-        this.isEditPost = true;
-        if (this.existingPost.status === 1) {
-          this.isChecked = true;
-        } else {
-          this.isChecked = false;
-        }
-        this.status = this.existingPost.status;
         this.postForm.controls['title'].setValue("update");
         this.postForm.controls['description'].setValue("update description");
+        this.postForm.controls['status'].setValue("1");
       }
     }
 

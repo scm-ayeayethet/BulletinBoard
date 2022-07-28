@@ -1,0 +1,35 @@
+<div class="container">
+    <h2>User Profile</h2>
+    <table class="user-table">
+      <tr>
+        <td class="label">Name</td>
+        <td>{{userInfo.name}}</td>
+      </tr>
+      <tr>
+        <td class="label">Email Address</td>
+        <td>{{userInfo.email}}</td>
+      </tr>
+      <tr>
+        <td class="label">Type</td>
+        <td>{{type}}</td>
+      </tr>
+      <tr>
+        <td class="label">Phone</td>
+        <td>{{userInfo.phone}}</td>
+      </tr>
+      <tr>
+        <td class="label">Date Of Birth</td>
+        <td>{{userInfo.dob | date: 'shortDate'}}</td>
+      </tr>
+      <tr>
+        <td class="label">Address</td>
+        <td>{{userInfo.address}}</td>
+      </tr>
+      <!-- <tr *ngIf="admin"> -->
+        <tr>
+        <td class="change-btn" colspan="2">
+          <a [routerLink]="['/password-change']">Change Password</a>
+        </td>
+      </tr>
+    </table>
+  </div>

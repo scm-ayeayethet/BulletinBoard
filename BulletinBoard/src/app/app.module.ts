@@ -11,6 +11,12 @@ import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { PlainmodalComponent } from './components/plainmodal/plainmodal.component';
 import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
 import { PostModalComponent } from './components/post-modal/post-modal.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { ListModalComponent } from './components/list-modal/list-modal.component';
+import { UserCreateConfirmComponent } from './users/user-create-confirm/user-create-confirm.component';
+import { UploadCsvComponent } from './posts/upload-csv/upload-csv.component';
+import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +25,13 @@ import { PostModalComponent } from './components/post-modal/post-modal.component
     PostsListComponent,
     PlainmodalComponent,
     CreateUpdateConfirmComponent,
-    PostModalComponent
+    PostModalComponent,
+    UsersListComponent,
+    ListModalComponent,
+    UserCreateConfirmComponent,
+    UploadCsvComponent,
+    UserProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

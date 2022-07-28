@@ -3,7 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { PostResolver } from './resolver/post.resolver';
+import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 import { LoginComponent } from './users/login/login.component';
+import { UserCreateConfirmComponent } from './users/user-create-confirm/user-create-confirm.component';
+import { UserProfileComponent } from './users/user-profile/user-profile.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
 
 const routes: Routes = [
   {
@@ -25,8 +29,28 @@ const routes: Routes = [
   {
     path: 'post/:id',
     component: CreateUpdateConfirmComponent ,
-    resolve: { post : PostResolver}
-  }
+    resolve: { post: PostResolver }
+  },
+  {
+    path: 'users-list',
+    component: UsersListComponent
+  },
+  {
+    path: 'user',
+    component: UserCreateConfirmComponent 
+  },
+  {
+    path: 'user/:id',
+    component: UserCreateConfirmComponent
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent
+  },
+  {
+    path: 'edit-profile/:id',
+    component: EditProfileComponent
+  },
 ];
 
 @NgModule({
