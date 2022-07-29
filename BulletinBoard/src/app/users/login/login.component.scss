@@ -20,6 +20,24 @@
       margin-bottom: 10px;
     }
 
+    .forgetPwd {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .rememberme {
+      display: inline-block;
+    }
+
+    .fgPwd {
+      display: inline-block;
+      cursor: pointer;
+      text-align: right;
+      color: #3f51b5;
+    }
+
     .login-btn {
       display: flex;
       justify-content: center;

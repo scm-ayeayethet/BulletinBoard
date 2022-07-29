@@ -4,7 +4,9 @@ import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/crea
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { PostResolver } from './resolver/post.resolver';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
+import { ForgotPasswordComponent } from './users/forgot-password/forgot-password.component';
 import { LoginComponent } from './users/login/login.component';
+import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
 import { UserCreateConfirmComponent } from './users/user-create-confirm/user-create-confirm.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
@@ -17,6 +19,14 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'forgotPwd',
+    component: ForgotPasswordComponent
+  },
+  {
+    path : 'resetPwd',
+    component: ResetPasswordComponent
   },
   {
     path: 'posts-list',

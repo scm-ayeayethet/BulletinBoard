@@ -17,6 +17,8 @@ import { UserCreateConfirmComponent } from './users/user-create-confirm/user-cre
 import { UploadCsvComponent } from './posts/upload-csv/upload-csv.component';
 import { UserProfileComponent } from './users/user-profile/user-profile.component';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
+import { ForgotPasswordComponent } from './users/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { EditProfileComponent } from './users/edit-profile/edit-profile.componen
     UserCreateConfirmComponent,
     UploadCsvComponent,
     UserProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
