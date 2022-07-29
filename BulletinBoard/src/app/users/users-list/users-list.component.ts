@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { USERS } from 'src/app/constants/constants';
 import { ListModalComponent } from 'src/app/components/list-modal/list-modal.component';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-users-list',
@@ -18,8 +19,9 @@ export class UsersListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   userList: any = [];
   orgList: any = [];
+  infoList:any = [];
   eachUser: any;
-  userInfo: any;
+  userInfo:any;
   nameFilter: any;
   emailFilter: any;
   fromDate: any;
@@ -34,24 +36,44 @@ export class UsersListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getUserData();
+    
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '[]');
+    this.getUserData();
   }
   getUserData() {
-    this.orgList = USERS.filter(data => {
-      const res = USERS.map((subject: any) => {
-        const ans = USERS.find(element => element.id == subject.created_user_id);
-        return subject.user_name = ans?.name;
-      })
-      return data.is_removed == false;
-    });
-    this.userList = USERS.filter(data => {
-      const res = USERS.map((subject: any) => {
-        const ans = USERS.find(element => element.id == subject.created_user_id);
-        return subject.user_name = ans?.name;
-      })
-      return data.is_removed == false;
-    });
+    if(this.userInfo.type == 0){
+      this.orgList = USERS.filter(data => {
+        const res = USERS.map((subject: any) => {
+          const ans = USERS.find(element => element.id == subject.created_user_id);
+          return subject.user_name = ans?.name;
+        })
+        return data.is_removed == false;
+      });
+      
+      this.userList = USERS.filter(data => {
+        const res = USERS.map((subject: any) => {
+          const ans = USERS.find(element => element.id == subject.created_user_id);
+          return subject.user_name = ans?.name;
+        })
+        return data.is_removed == false;
+      });
+    }else{
+      this.orgList = USERS.filter(data => {
+        const res = USERS.map((subject: any) => {
+          const ans = USERS.find(element => element.id == subject.created_user_id);
+          return subject.user_name = ans?.name;
+        })
+        return data.is_removed == false && data.created_user_id == this.userInfo.id;
+      });
+      
+      this.userList = USERS.filter(data => {
+        const res = USERS.map((subject: any) => {
+          const ans = USERS.find(element => element.id == subject.created_user_id);
+          return subject.user_name = ans?.name;
+        })
+        return data.is_removed == false && data.created_user_id == this.userInfo.id;
+      });
+    }
     this.orgList.sort((a: any, b: any) => a.order_key > b.order_key ? 1 : -1);
     this.userList.sort((a: any, b: any) => a.order_key > b.order_key ? 1 : -1);
     setTimeout(() => {
