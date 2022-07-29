@@ -25,10 +25,9 @@
         <td class="label">Address</td>
         <td>{{userInfo.address}}</td>
       </tr>
-      <!-- <tr *ngIf="admin"> -->
         <tr>
-        <td class="change-btn" colspan="2">
-          <a [routerLink]="['/password-change']">Change Password</a>
+        <td class="edit-btn" colspan="2">
+          <button (click)="editProfile(userInfo.id)">Edit Profile</button>
         </td>
       </tr>
     </table>

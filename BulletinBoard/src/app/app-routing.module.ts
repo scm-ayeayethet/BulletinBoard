@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { PostResolver } from './resolver/post.resolver';
+import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 import { ForgotPasswordComponent } from './users/forgot-password/forgot-password.component';
 import { LoginComponent } from './users/login/login.component';
@@ -60,6 +61,10 @@ const routes: Routes = [
   {
     path: 'edit-profile/:id',
     component: EditProfileComponent
+  },
+  {
+    path: 'change-pwd',
+    component: ChangePasswordComponent
   },
 ];
 

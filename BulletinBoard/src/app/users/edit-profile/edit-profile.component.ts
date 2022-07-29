@@ -54,7 +54,7 @@ export class EditProfileComponent implements OnInit {
     this.userId = this.activatedRoute.snapshot.params['id'];
 
     this.existingUser = USERS.filter(res => { return res.id == this.userId; });
-    console.log(this.existingUser);
+    
       if (this.existingUser) {
         this.userForm.controls['name'].setValue("update");
         this.userForm.controls['email'].setValue("update@gmail.com");

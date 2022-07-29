@@ -76,10 +76,6 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  updateUserData(userId: any) {
-     this.router.navigate(['/edit-profile/' + userId]);
-  }
-
   deleteUserData(userId: any) {
     const deletedParam = USERS.filter(res => res.id === userId);
     this.eachUser = deletedParam;

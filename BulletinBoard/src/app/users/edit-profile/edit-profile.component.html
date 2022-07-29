@@ -57,9 +57,13 @@
           <img [src]="profileImage" width="100" height="100" (load)="handleImageLoad()" >
         </div>
       </div> -->
+
+      <div class="changePwd">
+        <a [routerLink]="['/change-pwd']" class="changePwd">Change password?</a>
+      </div>
   
       <div class="button-group">
-        <button mat-flat-button type="submit" [disabled]="userForm.invalid" color="primary" class="btn-submit">{{confirmView === true ? 'Confirm' : 'Create'}}</button>
+        <button mat-flat-button type="submit" [disabled]="userForm.invalid" color="primary" class="btn-submit">{{confirmView === true ? 'Confirm' : 'Edit'}}</button>
         <button mat-stroked-button type="button" (click)="clearData()" color="warn">{{confirmView === true ? 'Cancel' : 'Clear'}}</button>
       </div>
     </form>
