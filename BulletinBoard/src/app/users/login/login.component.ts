@@ -38,13 +38,8 @@ export class LoginComponent implements OnInit {
   login() {
     const result = USERS.find(data => data.email === this.loginForm.controls['email'].value && data.password === this.loginForm.controls['password'].value);
     if (result) {
-      if (result.type === 0) {
-        this.router.navigate(["/posts-list"]);
-      }
-      else {
-        this.router.navigate(["/posts-list"]);
-      }
       localStorage.setItem("userInfo", JSON.stringify(result));
+      this.router.navigate(["/posts-list"]);
     } else {
       this.dialog.open(PlainmodalComponent, {
         data: {

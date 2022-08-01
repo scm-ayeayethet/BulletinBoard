@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { PostResolver } from './resolver/post.resolver';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
+import { CreateAccountComponent } from './users/create-account/create-account.component';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 import { ForgotPasswordComponent } from './users/forgot-password/forgot-password.component';
 import { LoginComponent } from './users/login/login.component';
@@ -31,40 +33,53 @@ const routes: Routes = [
   },
   {
     path: 'posts-list',
-    component: PostsListComponent
+    component: PostsListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'post',
-    component: CreateUpdateConfirmComponent
+    component: CreateUpdateConfirmComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'post/:id',
     component: CreateUpdateConfirmComponent ,
+    canActivate: [AuthGuard],
     resolve: { post: PostResolver }
   },
   {
     path: 'users-list',
-    component: UsersListComponent
+    component: UsersListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'user',
-    component: UserCreateConfirmComponent 
+    component: UserCreateConfirmComponent ,
+    canActivate: [AuthGuard]
   },
   {
     path: 'user/:id',
-    component: UserCreateConfirmComponent
+    component: UserCreateConfirmComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'user-profile',
-    component: UserProfileComponent
+    component: UserProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-profile/:id',
-    component: EditProfileComponent
+    component: EditProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'change-pwd',
-    component: ChangePasswordComponent
+    component: ChangePasswordComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'create-account',
+    component: CreateAccountComponent
   },
 ];
 
