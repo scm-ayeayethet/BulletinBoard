@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
+import { UploadCsvComponent } from './posts/upload-csv/upload-csv.component';
 import { PostResolver } from './resolver/post.resolver';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { CreateAccountComponent } from './users/create-account/create-account.component';
@@ -28,7 +29,7 @@ const routes: Routes = [
     component: ForgotPasswordComponent
   },
   {
-    path : 'resetPwd',
+    path: 'resetPwd',
     component: ResetPasswordComponent
   },
   {
@@ -37,15 +38,20 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'post',
+    path: 'create-post',
     component: CreateUpdateConfirmComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'post/:id',
-    component: CreateUpdateConfirmComponent ,
+    path: 'edit-post/:id',
+    component: CreateUpdateConfirmComponent,
     canActivate: [AuthGuard],
     resolve: { post: PostResolver }
+  },
+  {
+    path: 'upload-post',
+    component: UploadCsvComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users-list',
@@ -54,7 +60,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    component: UserCreateConfirmComponent ,
+    component: UserCreateConfirmComponent,
     canActivate: [AuthGuard]
   },
   {

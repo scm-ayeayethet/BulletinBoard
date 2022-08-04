@@ -20,10 +20,10 @@
     <!-- /Description -->
 
     <!-- Status -->
-    <div class="status" *ngIf="router.url.indexOf('/post') !== -1">
-      <mat-label>Status</mat-label>
-      <mat-slide-toggle formControlName="status" ></mat-slide-toggle>
-    </div>
+    <ng-container *ngIf="router.url.indexOf('/update-post') !== -1">
+      <label>Status:</label>
+      <mat-slide-toggle color="primary" formControlName="status"></mat-slide-toggle>
+    </ng-container>
     <!-- /Status -->
 
     <div class="button-group">

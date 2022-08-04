@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { POSTS } from 'src/app/constants/constants';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-create-update-confirm',
@@ -18,20 +16,16 @@ export class CreateUpdateConfirmComponent implements OnInit {
   buttonName: string = 'Create';
   public postForm!: FormGroup;
   public postId: any;
-  public isChecked: boolean = true;
-  public status: any;
   public postDetail: any;
   public existingPost: any;
-  public isEditPost: boolean = true;
   public postData: any;
   public userInfo: any;
 
   constructor(
-    private fb: FormBuilder,
     public router: Router,
     private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog) {
+    private postSvc: PostService,
+    private snackBar: MatSnackBar) {
     this.postForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.maxLength(255)]),
       description: new FormControl('', [Validators.required]),
@@ -41,50 +35,24 @@ export class CreateUpdateConfirmComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.postId = this.activatedRoute.snapshot.params['id'];
+    this.postId = this.activatedRoute.snapshot.params["id"];
 
-    if (this.router.url.indexOf('/post') !== -1 && this.postId !== undefined) {
+    if (this.router.url.indexOf('/edit-post') !== -1 && this.postId !== undefined) {
       this.pageTitle = 'Update Post';
       this.buttonName = 'Update';
 
-      this.existingPost = POSTS.filter(res => { return res.id == this.postId; });
+      this.existingPost = this.activatedRoute.snapshot.data['post'];
 
       if (this.existingPost) {
-        this.postForm.controls['title'].setValue("update");
-        this.postForm.controls['description'].setValue("update description");
-        this.postForm.controls['status'].setValue("1");
+        this.postForm.controls['title'].setValue(this.existingPost.data.title);
+        this.postForm.controls['description'].setValue(this.existingPost.data.description);
+        this.postForm.controls['status'].setValue(this.existingPost.data.status);
       }
     }
-
   }
-
-  // getPostData() {
-  //   const data = POSTS.map(res => { return res });
-  //   this.postDetail = data;
-  //    if (this.postDetail) {
-  //     if (this.postDetail.status === 1) {
-  //       this.isChecked = true;
-  //     } else {
-  //       this.isChecked = false;
-  //     }
-  //     this.status = this.postDetail.status;
-  //     this.postForm.setValue({
-  //       title: this.postDetail.title ?? null,
-  //       description: this.postDetail.description ?? null
-  //     });
-  //   }
-  // }
 
   public myError = (controlName: string, errorName: string) => {
     return this.postForm.controls[controlName].hasError(errorName);
-  }
-
-  changeToggle($event: MatSlideToggleChange) {
-    if ($event.checked) {
-      this.status = 1;
-    } else {
-      this.status = 0;
-    }
   }
 
   clearData() {
@@ -100,25 +68,34 @@ export class CreateUpdateConfirmComponent implements OnInit {
 
   confirmPost() {
     if (this.confirmView == true && this.buttonName == 'Create') {
-      const data: any = localStorage.getItem('userInfo') || "";
-      this.postData = JSON.parse(data);
+      const data: any = localStorage.getItem('userLoginData') || "";
+      this.userInfo = JSON.parse(data)._id;
       const payload = {
         title: this.postForm.controls['title'].value,
         description: this.postForm.controls['description'].value,
-        created_user_id: this.postData.id
+        created_user_id: this.userInfo
       }
-      this.router.navigate(["posts-list"]);
+      this.postSvc.createPost(payload).then(dist => {
+        this.router.navigate(["posts-list"]);
+        this.snackBar.open('Create post successfully!', '', { duration: 3000 });
+      })
     }
-
     else if (this.confirmView == true && this.buttonName == 'Update') {
-      const data: any = localStorage.getItem('userInfo') || "";
-      this.postData = JSON.parse(data);
+      const data: any = localStorage.getItem('userLoginData') || "";
+      console.log(this.userInfo)
+      this.userInfo = JSON.parse(data)._id;
+
+      const id: string = this.activatedRoute.snapshot.params['id'];
       const payload = {
         title: this.postForm.controls['title'].value,
         description: this.postForm.controls['description'].value,
-        updated_user_id: this.postData.id
+        status: this.postForm.controls['status'].value,
+        updated_user_id: this.userInfo
       }
-      this.router.navigate(["posts-list"]);
+      this.postSvc.updatePost(payload, id).then(dist => {
+        this.router.navigate(["posts-list"]);
+        this.snackBar.open('Update post successfully!', '', { duration: 3000 });
+      })
     }
 
     if (this.postForm.valid) {

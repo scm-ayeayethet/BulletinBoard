@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { PlainmodalComponent } from 'src/app/components/plainmodal/plainmodal.component';
 import { CSVRecord } from 'src/app/interfaces/CSVModels';
-import { POSTS } from 'src/app/constants/constants';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-upload-csv',
@@ -14,98 +10,63 @@ import { POSTS } from 'src/app/constants/constants';
 })
 export class UploadCsvComponent implements OnInit {
 
+  public csvFile: any;
+  public uploadData: any = [];
   public userInfo: any;
   public records: any;
-  public postList: any = [];
-  public duplicateTitle: any;
+  public uplaodPostErrMsg: string = "";
+  public noFileErrMsg: string = "";
+  public csvErrMsg: string = "";
+  files: any;
 
   constructor(
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private dialogRef: MatDialogRef<UploadCsvComponent>) { }
+    private postSvc: PostService,
+    private router: Router) { }
 
   @ViewChild('csvReader') csvReader: any;
 
   ngOnInit(): void {
-    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-    this.getPostList();
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userInfo = JSON.parse(data)._id;
   }
 
-  getPostList() {
-    // this.postSvc.geAllPost().subscribe({
-    //   next: result => {
-    //     this.postList = result;
-    //   },
-    //   error: err => {
-    //     console.log('=== handle error ====')
-    //     console.log(err)
-    //   }
-    // });
-    const result = POSTS.map( res => {return res});
-    this.postList =result;
+  uploadCSV() {
+    if (!this.csvFile || this.uploadData === undefined) {
+      this.noFileErrMsg = "Please select a file";
+      this.onClear();
+    }
+    console.log(this.uploadData)
+    this.postSvc.createPost(this.uploadData).then((dist) => {
+      this.router.navigate(["/posts-list"]);
+    });
   }
 
-  uploadListener($event: any): void {
-
-    let uploadData: any = [];
-    let files = $event.srcElement.files;
-
-    if (this.isValidCSVFile(files[0])) {
-
-      let input = $event.target;
+  uploadListener(fileInput: any): void {
+    this.files = fileInput.srcElement.files;
+    if (this.isValidCSVFile(this.files[0])) {
+      let input = fileInput.target;
       let reader = new FileReader();
       reader.readAsText(input.files[0]);
-
       reader.onload = () => {
         let csvData = reader.result;
         let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
-
         let headersRow = this.getHeaderArray(csvRecordsArray);
-
         this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
 
-        //check duplicate title
-        let csvTitle = this.records.map((rTitle: any) => { return rTitle.title });
-        this.duplicateTitle = this.postList.filter((item: any) => csvTitle.includes(item.title));
-
-        if (this.duplicateTitle.length > 0) {
-          const csvTitle = this.duplicateTitle.map((item: any) => item.title)
-          this.dialog.open(PlainmodalComponent, {
-            data: {
-              content: `${csvTitle} already exists in the post list!`,
-              note: '',
-              applyText: 'Ok'
-            }
-          })
-        } else {
-          this.records.map((result: any) => {
-            let res = {
-              title: result.title,
-              description: result.description,
-              status: 1,
-              created_user_id: this.userInfo.id,
-              updated_user_id: this.userInfo.id,
-              created_at: new Date(),
-              updated_at: new Date(),
-              deleted_at: "",
-              is_removed: false
-            }
-
-            uploadData = res;
-          })
-          this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
-        }
-        this.dialogRef.close();
+        this.records.map((result: any) => {
+          let res = {
+            title: result.title,
+            description: result.description,
+            created_user_id: this.userInfo,
+          }
+          this.uploadData.push(res);
+        })
       };
-
       reader.onerror = function () {
-        console.log('Error is occured while reading file!');
       };
-
     } else {
-      alert("Please import valid .csv file.");
-      this.fileReset();
+      this.uplaodPostErrMsg = "Please select a correct CSV file";
+      this.onClear();
     }
   }
 
@@ -115,10 +76,15 @@ export class UploadCsvComponent implements OnInit {
     for (let i = 1; i < csvRecordsArray.length; i++) {
       let currentRecord = (<string>csvRecordsArray[i]).split(',');
       if (currentRecord.length == headerLength) {
-        let csvRecord : CSVRecord = new CSVRecord();
+        let csvRecord: CSVRecord = new CSVRecord();
         csvRecord.title = currentRecord[0];
         csvRecord.description = currentRecord[1];
-        csvArr.push(csvRecord);
+        if (!currentRecord[0] || !currentRecord[1]) {
+          this.csvErrMsg = "Please select a formatted CSV file";
+          this.onClear();
+        } else {
+          csvArr.push(csvRecord);
+        }
       }
     }
     return csvArr;
@@ -137,8 +103,8 @@ export class UploadCsvComponent implements OnInit {
     return headerArray;
   }
 
-  fileReset() {
+  onClear() {
     this.csvReader.nativeElement.value = "";
-    this.records = [];
+    this.uploadData = undefined;
   }
 }

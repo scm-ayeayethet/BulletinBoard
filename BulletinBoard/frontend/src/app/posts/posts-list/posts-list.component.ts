@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PostModalComponent } from 'src/app/components/post-modal/post-modal.component';
-import { UploadCsvComponent } from '../upload-csv/upload-csv.component';
 import { PostService } from 'src/app/services/post.service';
 import { POSTS } from 'src/app/constants/constants';
 
@@ -49,13 +48,15 @@ export class PostsListComponent implements OnInit {
   getPosts() {
     this.postSvc.getPosts().then(dist => {
       this.allPost = dist.data;
+      console.log(this.allPost)
       this.allPost.map((result: any) => {
         const res = {
           Title: result.title,
           Description: result.description,
-          Posted_User: result.created_user_id ? result.created_user_id : result.updated_user_id,
+          Posted_User: result.created_user_id ? result.created_user_id["name"] : result.updated_user_id["name"],
           Posted_Date: new Date(result.createdAt).toLocaleString()
         };
+
         this.postArr.push(res);
       })
       this.postData = this.postArr;
@@ -77,11 +78,6 @@ export class PostsListComponent implements OnInit {
     })
   }
 
-  //post edit
-  editPost(postId: number) {
-    this.router.navigate(['/post/' + postId])
-  }
-
   //post-delete
   public deletePost(data: any) {
     const postId = data._id;
@@ -91,35 +87,23 @@ export class PostsListComponent implements OnInit {
     });
   }
 
-  //post create
-  createPost() {
-    this.router.navigate(['/post']);
-  }
-
   //post upload
   uploadCSV() {
-    let dialogRef = this.dialog.open(UploadCsvComponent, {
-      width: '40%'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      // this.login();
-    })
+    this.router.navigate(['/upload-post']);
   }
 
   //post title details
-  postDetail(postId: any) {
-    const details = POSTS.find(res => res.id === postId);
-    this.eachData = details;
+  postDetail(data: any) {
     this.dialog.open(PostModalComponent, {
       width: '40%',
       data: {
-        title: this.eachData.title,
-        description: this.eachData.description,
-        status: this.eachData.status,
-        created_user_id: this.eachData.created_user_id,
-        updated_user_id: this.eachData.updated_user_id,
-        created_at: this.eachData.created_at,
+            title: data.title,
+            description: data.description,
+            status: data.status,
+            created_user_id: data.created_user_id,
+            createdAt: new Date(data.createdAt).toLocaleString(),
+            updated_user_id: data.updated_user_id,
+            updatedAt: new Date(data.updatedAt).toLocaleString()
       }
     });
   }

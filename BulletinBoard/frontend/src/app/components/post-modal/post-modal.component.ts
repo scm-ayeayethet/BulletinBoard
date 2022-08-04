@@ -11,9 +11,10 @@ export class PostModalComponent implements OnInit {
   title?: string;
   description?: string;
   status?: string;
-  created_user_id?: string;
-  updated_user_id?: string;
-  created_at?: string;
+  created_user_id?: any;
+  updated_user_id?: any;
+  createdAt?: string;
+  updatedAt?: string;
 
   constructor(
     public dialogRef: MatDialogRef<PostModalComponent>,

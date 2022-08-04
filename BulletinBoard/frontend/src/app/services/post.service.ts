@@ -39,12 +39,36 @@ export class PostService {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/posts/search`, payload, options));
   }
 
-  deletePost(postId: any) {
+  public deletePost(postId: any): Promise<any> {
     const token = localStorage.getItem('token') || null;
     const headerOptions = new HttpHeaders()
       .set('Content-Type', "application/json:charset=utf-8;")
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions }
     return lastValueFrom(this.http.delete(`${environment.apiUrl}/posts/` + postId, options));
+  }
+
+  public findPost(postId: any): Promise<any> {
+    const token = localStorage.getItem('token') || null;
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions }
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/posts/` + postId, options));
+  }
+
+  public createPost(payload: any): Promise<any> {
+    const token = localStorage.getItem('token') || null;
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/posts`, payload, options));
+  }
+
+  public updatePost(payload: any, postId: any): Promise<any> {
+    const token = localStorage.getItem('token') || null;
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.put(`${environment.apiUrl}/posts/` + postId, payload, options));
   }
 }

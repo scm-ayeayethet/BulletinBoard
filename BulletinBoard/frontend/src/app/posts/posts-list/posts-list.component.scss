@@ -30,6 +30,16 @@
 
     table {
       width: 100%;
+
+      .postTitle {
+        text-decoration: none;
+        color: #000;
+        cursor: pointer;
+      }
+
+      .postTitle:hover {
+        color: #0000ff;
+      }
     }
   }
 }

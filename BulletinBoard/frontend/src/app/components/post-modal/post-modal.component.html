@@ -18,19 +18,18 @@
       </div>
     </mat-list-item>
 
+    <mat-list-item role="listitem">
+      <span>Status :</span>
+      <div class="dialog-data">
+        {{data.status}}
+      </div>
+    </mat-list-item>
+
     <!-- Created User Id -->
     <mat-list-item role="listitem">
       <span>Created User Id :</span>
       <div class="dialog-data">
-        {{data.created_user_id}}
-      </div>
-    </mat-list-item>
-
-    <!-- Updated User Id -->
-    <mat-list-item role="listitem">
-      <span>Updated User Id :</span>
-      <div class="dialog-data">
-        {{data.updated_user_id}}
+        {{data.created_user_id?._id || "-"}}
       </div>
     </mat-list-item>
 
@@ -38,7 +37,23 @@
     <mat-list-item role="listitem">
       <span>Created At :</span>
       <div class="dialog-data">
-        {{data.created_at | date: 'shortDate'}}
+        {{data.createdAt | date: 'yyyy/MM/dd a' }}
+      </div>
+    </mat-list-item>
+
+    <!-- Updated User Id -->
+    <mat-list-item role="listitem">
+      <span>Updated User Id :</span>
+      <div class="dialog-data">
+        {{data.updated_user_id?._id || "-"}}
+      </div>
+    </mat-list-item>
+
+    <!-- Updated Date -->
+    <mat-list-item role="listitem">
+      <span>Updated At :</span>
+      <div class="dialog-data">
+        {{data.updatedAt | date: 'yyyy/MM/dd a' }}
       </div>
     </mat-list-item>
   </mat-list>
