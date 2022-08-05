@@ -1,13 +1,16 @@
 <div class="container">
     <h2>User Profile</h2>
+    <div>
+      <img [src]="profileImage" class="profileimg" />
+    </div>
     <table class="user-table">
       <tr>
         <td class="label">Name</td>
-        <td>{{userInfo.name}}</td>
+        <td>{{name}}</td>
       </tr>
       <tr>
         <td class="label">Email Address</td>
-        <td>{{userInfo.email}}</td>
+        <td>{{email}}</td>
       </tr>
       <tr>
         <td class="label">Type</td>
@@ -15,19 +18,19 @@
       </tr>
       <tr>
         <td class="label">Phone</td>
-        <td>{{userInfo.phone}}</td>
+        <td>{{phone}}</td>
       </tr>
       <tr>
         <td class="label">Date Of Birth</td>
-        <td>{{userInfo.dob | date: 'shortDate'}}</td>
+        <td>{{dob | date: 'shortDate'}}</td>
       </tr>
       <tr>
         <td class="label">Address</td>
-        <td>{{userInfo.address}}</td>
+        <td>{{address}}</td>
       </tr>
         <tr>
         <td class="edit-btn" colspan="2">
-          <button (click)="editProfile(userInfo.id)">Edit Profile</button>
+          <button (click)="editProfile()" >Edit Profile</button>
         </td>
       </tr>
     </table>

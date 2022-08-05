@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   showNavBar = true;
   user: any = null;
   userData: any;
+  userInfo:any;
 
   constructor(
     private router: Router,
@@ -30,6 +31,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  public profile(userId:any) {
+    // const data: any = localStorage.getItem('userLoginData') || "";
+    // this.userInfo = JSON.parse(data)._id;
+    this.router.navigate(['/user-profile/' + userId]);
   }
 
   logout() {

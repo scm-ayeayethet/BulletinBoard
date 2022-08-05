@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -7,27 +8,48 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
-  userInfo: any;
-  type: any;
-  admin: boolean = false;
+
+  profileImage:any;
+  userData: any;
+  public userInfo: any;
+
+  public name! : string;
+  public email! : string;
+  public type! : string;
+  public dob! : string;
+  public address! :string;
+  public phone! :string;
+  public profile! : string
+
   constructor(
     private router : Router,
+    private activatedRoute : ActivatedRoute,
+    private userSvc : UserService
     ) { }
 
   ngOnInit(): void {
+    //  this.userInfo = JSON.parse(localStorage.getItem('userLoginData') || '[]');
+    const id :string = this.activatedRoute.snapshot.params['id'];
+ console.log(id)
+    const payload = {};
+    this.userSvc.findUser(payload,id).then((dist) => {
+      this.userData = dist.data;
+      console.log(this.userData)
+      if (this.userData) {
+        this.name = this.userData.name;
+        this.email = this.userData.email;
+        this.phone = this.userData.phone;
+        this.address = this.userData.address;
+        this.type = this.userData.type;
+        this.dob = this.userData.dob;
+        this.profileImage = 'http://localhost:5000/' + this.userData.profile;
+      }
+    })
     
-     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '[]');
-    if (this.userInfo.type == 0) {
-      this.type = 'Admin';
-      this.admin = false;
-    } else {
-      this.type = 'User';
-      this.admin = true;
-    }
   }
 
-  editProfile(userId:any){
-    this.router.navigate(['/edit-profile/' + userId]);
+  editProfile(){
+    this.router.navigate(['/edit-profile/']);
   }
 
 }

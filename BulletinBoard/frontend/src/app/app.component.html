@@ -4,7 +4,7 @@
       <a mat-flat-button color="primary" [routerLink]="['/users-list']" routerLinkActive="active">Users</a>
       <a mat-flat-button color="primary" [routerLink]="['/posts-list']" routerLinkActive="active">Posts</a>
       <span class="rt-nav">
-        <a mat-button *ngIf="user?._id" class="profile" [routerLink]="['/user-profile']">
+        <a mat-button *ngIf="user?._id" class="profile" (click)="profile(user?._id)">
           <mat-icon>person</mat-icon>{{user.name}}
         </a>
         <a mat-flat-button color="warn" (click)="logout()">

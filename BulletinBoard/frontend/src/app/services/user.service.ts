@@ -48,18 +48,20 @@ export class UserService {
     return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId, options));
   }
 
-  // public createUser(payload: any): Promise<any> {
-  //   const token = localStorage.getItem('token') || '';
-  //   const headerOptions = new HttpHeaders()
-  //     .set('Authorization', `Bearer ${token}`);
-  //   const options = { headers: headerOptions };
-  //   return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload, options));
-  // }
   public createUser(payload:any):Promise<any>{
     const token = localStorage.getItem('token') || null;
     const headerOptions = new HttpHeaders()
     .set('Authorization',`Bearer ${token}`);
     const options = { headers: headerOptions}
     return lastValueFrom(this.http.post(`${environment.apiUrl}/users`,payload,options));
+  }
+
+  public findUser(payload:any,userId: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Content-Type', 'application/json;charset=utf-8;')
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/` + userId,payload, options));
   }
 }

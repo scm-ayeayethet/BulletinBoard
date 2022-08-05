@@ -82,7 +82,6 @@ export class CreateUpdateConfirmComponent implements OnInit {
     }
     else if (this.confirmView == true && this.buttonName == 'Update') {
       const data: any = localStorage.getItem('userLoginData') || "";
-      console.log(this.userInfo)
       this.userInfo = JSON.parse(data)._id;
 
       const id: string = this.activatedRoute.snapshot.params['id'];

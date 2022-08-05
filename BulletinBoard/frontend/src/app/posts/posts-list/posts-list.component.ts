@@ -47,7 +47,6 @@ export class PostsListComponent implements OnInit {
   getPosts() {
     this.postSvc.getPosts().then(dist => {
       this.allPost = dist.data;
-      console.log(this.allPost)
       this.allPost.map((result: any) => {
         const res = {
           Title: result.title,
