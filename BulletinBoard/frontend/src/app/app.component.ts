@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
         } else {
           this.showNavBar = true;
         }
-        this.user = localStorage.getItem('userInfo');
+        this.user = localStorage.getItem('userLoginData');
         this.user = JSON.parse(this.user);
       }
     });

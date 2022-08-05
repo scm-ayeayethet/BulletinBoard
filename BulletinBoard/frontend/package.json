@@ -23,6 +23,7 @@
     "dotenv": "^16.0.1",
     "dotenv-webpack": "^8.0.0",
     "mat-table-exporter": "^10.2.4",
+    "moment": "^2.29.4",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "rxjs": "~7.5.0",

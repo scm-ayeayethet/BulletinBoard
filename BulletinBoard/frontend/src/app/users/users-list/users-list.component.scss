@@ -37,9 +37,23 @@
     }
   }
 
-  .table-container {
-    .user-table {
+  .mat-elevation-z8 {
+    width: 100%;
+    margin: 1% auto;
+    padding: 2%;
+
+    table {
       width: 100%;
+
+      .userTitle {
+        text-decoration: none;
+        color: #000;
+        cursor: pointer;
+      }
+
+      .userTitle:hover {
+        color: #0000ff;
+      }
     }
   }
 }

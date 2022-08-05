@@ -13,8 +13,9 @@ export class ListModalComponent implements OnInit {
   phone?: string;
   dob?: string;
   address?: string;
-  created_date?: string;
-  
+  createdAt?: string;
+  updatedAt?: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ListModalComponent,
     private dialogRef: MatDialogRef<ListModalComponent>

@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PostModalComponent } from 'src/app/components/post-modal/post-modal.component';
 import { PostService } from 'src/app/services/post.service';
-import { POSTS } from 'src/app/constants/constants';
 
 @Component({
   selector: 'app-posts-list',
@@ -17,7 +16,7 @@ export class PostsListComponent implements OnInit {
 
   keyword = "";
   postArr: any = [];
-  postData: any = [];
+  //postData: any = [];
   postLists: any;
   public allPost: any = [];
   public eachData: any = [];
@@ -57,9 +56,9 @@ export class PostsListComponent implements OnInit {
           Posted_Date: new Date(result.createdAt).toLocaleString()
         };
 
-        this.postArr.push(res);
+        //this.postArr.push(res);
       })
-      this.postData = this.postArr;
+      //this.postData = this.postArr;
       this.dataSource = new MatTableDataSource(this.allPost);
       this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
@@ -97,13 +96,12 @@ export class PostsListComponent implements OnInit {
     this.dialog.open(PostModalComponent, {
       width: '40%',
       data: {
-            title: data.title,
-            description: data.description,
-            status: data.status,
-            created_user_id: data.created_user_id,
-            createdAt: new Date(data.createdAt).toLocaleString(),
-            updated_user_id: data.updated_user_id,
-            updatedAt: new Date(data.updatedAt).toLocaleString()
+        title: data.title,
+        description: data.description,
+        status: data.status,
+        created_user_id: data.created_user_id,
+        createdAt: new Date(data.createdAt).toLocaleString(),
+        updatedAt: new Date(data.updatedAt).toLocaleString()
       }
     });
   }

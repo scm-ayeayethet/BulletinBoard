@@ -12,29 +12,54 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public getUsers(pageSize: number, pageIndex: number): Promise<any> {
+  public getUsers():Promise<any>{
+    const token = localStorage.getItem('token') || null;
+    const data = localStorage.getItem('userLoginData') || "";
+    const userData = JSON.parse(data);
+    const headerOptions = new HttpHeaders()
+    .set('Content-Type' , "application/json;charset=utf-8;")
+    .set('Authorization',`Bearer ${token}`)
+    .set('userType',userData.type)
+    .set('userId',userData._id);
+    const options = { headers : headerOptions };
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`,options));
+  }
+
+  public findByName(payload: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
     const headerOptions = new HttpHeaders()
-      .set('Content-Type', 'application/json;charset=utf-8;')
-      .set('Cache-Control', 'no-cache')
-      .set('Pragma', 'no-cache')
       .set('Authorization', `Bearer ${token}`)
       .set('userType', userData.type)
       .set('userId', userData._id);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/users?page=${pageIndex}&upp=${pageSize}`, options));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/search`, payload, options));
   }
 
-  public getUserDetail(userId: any): Promise<any> {
+  public deleteUser(userId: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
-    const data = localStorage.getItem('userLoginData') || "";
-    const userData = JSON.parse(data);
     const headerOptions = new HttpHeaders()
       .set('Content-Type', 'application/json;charset=utf-8;')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Cache-Control', 'no-cache')
+      .set('Pragma', 'no-cache')
+      .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/users/userId`));
+    return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId, options));
+  }
+
+  // public createUser(payload: any): Promise<any> {
+  //   const token = localStorage.getItem('token') || '';
+  //   const headerOptions = new HttpHeaders()
+  //     .set('Authorization', `Bearer ${token}`);
+  //   const options = { headers: headerOptions };
+  //   return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload, options));
+  // }
+  public createUser(payload:any):Promise<any>{
+    const token = localStorage.getItem('token') || null;
+    const headerOptions = new HttpHeaders()
+    .set('Authorization',`Bearer ${token}`);
+    const options = { headers: headerOptions}
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`,payload,options));
   }
 }

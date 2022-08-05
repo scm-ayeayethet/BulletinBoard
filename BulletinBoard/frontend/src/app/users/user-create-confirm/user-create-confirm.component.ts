@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { USERS } from 'src/app/constants/constants';
+import { UserService } from 'src/app/services/user.service';
 import { MustMatch } from 'src/app/validators/must-match.validator';
 
 @Component({
@@ -17,28 +18,31 @@ export class UserCreateConfirmComponent implements OnInit {
   profileImage: any;
   Imageloaded:boolean = false;
   imgFile:any;
-  userInfoId:any;
+  userInfo:any;
   typeOption = [
-    { value: 0, label: 'Admin' },
-    { value: 1, label: 'User' }
+    { enum: 'Admin' },
+    { enum: 'User' }
   ];
   userForm!: FormGroup;
   public userId: number = 0;
   public userData: any;
   public existingUser: any;
   public isEditUser: boolean = true;
-
+  submitted: boolean = false;
+  pickDate: any;
+  today = new Date();
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private changeDetector:ChangeDetectorRef
+    private changeDetector:ChangeDetectorRef,
+    private userSvc: UserService
   ) { }
 
   ngOnInit(): void {
-    const info: any = localStorage.getItem('userInfo') || "";
+    const info: any = localStorage.getItem('userLoginData') || "";
     const data = JSON.parse(info);
-    this.userInfoId = data._id;
+    this.userInfo = data._id;
 
     this.userForm = this.fb.group({
       name: ['', Validators.required],
@@ -47,13 +51,13 @@ export class UserCreateConfirmComponent implements OnInit {
         Validators.required,
         Validators.pattern('(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$')]],
       confirmPwd: ['', [Validators.required, MustMatch]],
-      type: [0],
+      type: [''],
       phone: ['', [Validators.required,
       Validators.pattern("^[0-9]{11}$")
       ]],
       dob: [''],
       address: [''],
-      //profile : ['', [Validators.required]]
+      profile : ['', [Validators.required]]
     },
       {
         validator: MustMatch('password', 'confirmPwd')
@@ -82,7 +86,7 @@ export class UserCreateConfirmComponent implements OnInit {
       this.userForm.controls['type'].enable();
       this.userForm.controls['dob'].enable();
       this.userForm.controls['phone'].enable();
-      //this.userForm.controls['profile'].enable();
+      this.userForm.controls['profile'].enable();
       this.confirmView = false;
     } else {
       this.userForm.reset();
@@ -91,7 +95,20 @@ export class UserCreateConfirmComponent implements OnInit {
 
   confirmUser() {
     if (this.confirmView == true) {
-      this.router.navigate(["users-list"]);
+      const formData = new FormData();
+      formData.append('name', this.userForm.controls['name'].value);
+      formData.append('email',this.userForm.controls['email'].value);
+      formData.append('password',this.userForm.controls['password'].value);
+      formData.append('type',this.userForm.controls['type'].value);
+      formData.append('phone',this.userForm.controls['phone'].value);
+      formData.append('address',this.userForm.controls['address'].value);
+      formData.append('dob',this.userForm.controls['dob'].value);
+      formData.append('profile',this.imgFile);
+      formData.append('created_user_id',this.userInfo);
+
+      this.userSvc.createUser(formData).then((dist)=>{
+        this.router.navigate(["users-list",{msg:"success"}]);
+      })
     }
 
     if (this.userForm.valid) {
@@ -103,28 +120,29 @@ export class UserCreateConfirmComponent implements OnInit {
       this.userForm.controls['type'].disable();
       this.userForm.controls['dob'].disable();
       this.userForm.controls['phone'].disable();
-      //this.userForm.controls['profile'].disable();
+      this.userForm.controls['profile'].disable();
       this.confirmView = true;
     }
   }
   
-  // imageUpload(event: any) {
-  //   var file = event.target.files.length;
-  //   for(let i=0;i<file;i++)
-  //   {
-  //      var reader = new FileReader();
-  //      reader.onload = (event:any) =>
-  //      {
-  //          this.profileImage = event.target.result;
-  //          this.changeDetector.detectChanges();
-  //      }
-  //      reader.readAsDataURL(event.target.files[i]);
-  //   }
-  // }
+  imageUpload(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      this.imgFile = file;
+      console.log(this.imgFile)
+      const reader = new FileReader();
+      reader.onload = e => this.profileImage = reader.result;
+      reader.readAsDataURL(file);
+    }
+  }
 
   // handleImageLoad()
   // {
   //   this.Imageloaded = true;
   // }
+
+  OnDateChange(event: any) {
+    this.pickDate = event;
+  }
 
 }
