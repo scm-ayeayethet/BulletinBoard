@@ -28,13 +28,10 @@ export class UserProfileComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    //  this.userInfo = JSON.parse(localStorage.getItem('userLoginData') || '[]');
     const id :string = this.activatedRoute.snapshot.params['id'];
- console.log(id)
     const payload = {};
     this.userSvc.findUser(payload,id).then((dist) => {
       this.userData = dist.data;
-      console.log(this.userData)
       if (this.userData) {
         this.name = this.userData.name;
         this.email = this.userData.email;
@@ -49,7 +46,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   editProfile(){
-    this.router.navigate(['/edit-profile/']);
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userInfo = JSON.parse(data)._id;
+    this.router.navigate(["/edit-profile/", this.userInfo]);
   }
 
 }

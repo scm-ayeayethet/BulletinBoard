@@ -1,6 +1,6 @@
 <div class="user-container">
     <h2 class="user">Edit Profile</h2>
-    <form [formGroup]="userForm" (ngSubmit)="confirmUser()" class="user-form">
+    <form [formGroup]="userForm" (ngSubmit)="confirmUser()" autocomplete="off" novalidate class="user-form">
   
       <mat-form-field class="form-group" appearance="outline">
         <mat-label>Name</mat-label>
@@ -18,7 +18,7 @@
       <mat-form-field class="form-group" appearance="outline">
         <mat-label>Type</mat-label>
         <mat-select matNativeControl name="type" formControlName="type" required>
-          <mat-option *ngFor="let selectOption of typeOption" [value]="selectOption.value"> {{selectOption.label}}</mat-option>
+          <mat-option *ngFor="let selectOption of typeOption" [value]="selectOption.enum"> {{selectOption.enum}}</mat-option>
         </mat-select>
       </mat-form-field>
   
@@ -32,7 +32,7 @@
   
       <mat-form-field class="form-group" appearance="outline">
         <mat-label>Date Of Birth</mat-label>
-        <input matInput [matDatepicker]="picker1" formControlName="dob">
+        <input (dateInput)="OnDateChange($event.value)"  matInput [matDatepicker]="picker1" formControlName="dob" [max]="today">
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
@@ -42,21 +42,21 @@
         <textarea matInput formControlName="address"></textarea>
       </mat-form-field>
 
-      <!-- <div class="profile">
-        <label>Profile</label>
-        <div *ngIf="confirmView==false">
-          <input type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*" maxFileSize = 2000000>
+      <label>Old Profile</label>
+        <div *ngIf="profileImage">
+          <img [src]="profileImage" class="profileimg">
         </div>
+        <br>
 
-       <div *ngIf="myForm['profile'].invalid  && (myForm['profile'].dirty || myForm['profile'].touched)">
-          <mat-error *ngIf="myForm['profile'].hasError('required')">Profile is required.
+        <label>New Profile</label>
+        <div class="profileinput">
+          <input type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*"
+            maxFileSize=2000000>
+        <!-- </div> -->
+        <!-- <div> -->
+          <mat-error *ngIf="myForm['profile'].hasError('required')" class="profileerror">Profile can't be blank.
           </mat-error>
         </div>
-
-        <div *ngIf="profileImage">
-          <img [src]="profileImage" width="100" height="100" (load)="handleImageLoad()" >
-        </div>
-      </div> -->
 
       <div class="changePwd">
         <a [routerLink]="['/change-pwd']" class="changePwd">Change password?</a>

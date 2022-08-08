@@ -64,4 +64,12 @@ export class UserService {
     const options = { headers: headerOptions };
     return lastValueFrom(this.http.post(`${environment.apiUrl}/users/` + userId,payload, options));
   }
+
+  public updateUser(payload: any, userId: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.put(`${environment.apiUrl}/users/` + userId, payload, options));
+  }
 }

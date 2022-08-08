@@ -22,6 +22,7 @@ import { ResetPasswordComponent } from './users/reset-password/reset-password.co
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { CreateAccountComponent } from './users/create-account/create-account.component';
 import { HttpClientModule } from '@angular/common/http';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { HttpClientModule } from '@angular/common/http';
     AngularmaterialsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

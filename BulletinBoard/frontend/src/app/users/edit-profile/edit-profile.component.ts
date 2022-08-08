@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USERS } from 'src/app/constants/constants';
+import { UserService } from 'src/app/services/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-profile',
@@ -11,58 +13,70 @@ import { USERS } from 'src/app/constants/constants';
 export class EditProfileComponent implements OnInit {
 
   confirmView : boolean = false;
-  value!: number;
-  label!: string;
   profileImage: any;
   Imageloaded:boolean = false;
   imgFile:any;
   userInfoId:any;
   typeOption = [
-    { value: 0, label: 'Admin' },
-    { value: 1, label: 'User' }
+    { enum: 'Admin' },
+    { enum: 'User' }
   ];
+  pickDate: any;
+  today = new Date();
+  userData: any;
+  public userID: any;
   public userForm!: FormGroup;
-  public userId: number = 0;
-  public userData: any;
   public existingUser: any;
-  public isEditUser: boolean = true;
-
 
   constructor(
     private fb: FormBuilder,
+    private location :Location,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private userSvc : UserService
   ) { 
     this.userForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
-      type: new FormControl(0),
+      type: new FormControl(),
       phone: new FormControl('', [Validators.required,
       Validators.pattern("^[0-9]{11}$")
       ]),
       dob: new FormControl(''),
       address: new FormControl(''),
-      //profile : new FormControl('', [Validators.required])
+      profile : new FormControl('')
     });
+
+    const id:string = this.activatedRoute.snapshot.params['id'];
+
+    const payload = {};
+    this.userSvc.findUser(payload, id).then((dist) => {
+      this.userData = dist.data;
+      if (this.userData) {
+        this.userForm.controls['name'].setValue(this.userData.name);
+        this.userForm.controls['email'].setValue(this.userData.email);
+        this.userForm.controls['phone'].setValue(this.userData.phone);
+        this.userForm.controls['address'].setValue(this.userData.address);
+        this.userForm.controls['type'].setValue(this.userData.type);
+        this.userForm.controls['dob'].setValue(this.userData.dob);
+        this.profileImage = 'http://localhost:5000/' + this.userData.profile;
+        //this.userForm.controls['profile'].setValue(this.profileImage);
+      }
+    })
   }
 
   ngOnInit(): void {
-    const info: any = localStorage.getItem('userInfo') || "";
-    const data = JSON.parse(info);
-    this.userInfoId = data._id;
+    // const info: any = localStorage.getItem('userLoginData') || "";
+    // const data = JSON.parse(info);
+    // this.userInfoId = data._id; 
+    const id: string = this.activatedRoute.snapshot.params['id'];
+    const payload = {};
+    this.userSvc.findUser(payload, id).then((dist) => {
+      this.userData = dist.data;
+    });
 
-    this.userId = this.activatedRoute.snapshot.params['id'];
-
-    this.existingUser = USERS.filter(res => { return res.id == this.userId; });
-    
-      if (this.existingUser) {
-        this.userForm.controls['name'].setValue("update");
-        this.userForm.controls['email'].setValue("update@gmail.com");
-        this.userForm.controls['type'].setValue( 1 );
-        this.userForm.controls['phone'].setValue('09780987890');
-        this.userForm.controls['dob'].setValue("2022-05-04T07:00:00.000Z" );
-        this.userForm.controls['address'].setValue("update");
-      }
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userID = JSON.parse(data)._id;
   }
 
   get myForm() {
@@ -85,7 +99,7 @@ export class EditProfileComponent implements OnInit {
       this.userForm.controls['type'].enable();
       this.userForm.controls['dob'].enable();
       this.userForm.controls['phone'].enable();
-      //this.userForm.controls['profile'].enable();
+      this.userForm.controls['profile'].enable();
       this.confirmView = false;
     } else {
       this.userForm.reset();
@@ -93,8 +107,23 @@ export class EditProfileComponent implements OnInit {
   }
 
   confirmUser() {
+    const id: string = this.activatedRoute.snapshot.params['id'];
+ 
     if (this.confirmView == true) {
-      this.router.navigate(["users-list"]);
+
+      const formData = new FormData();
+      formData.append('name', this.userForm.controls['name'].value);
+      formData.append('email', this.userForm.controls['email'].value);
+      formData.append('type', this.userForm.controls['type'].value);
+      formData.append('phone', this.userForm.controls['phone'].value);
+      formData.append('dob', this.userForm.controls['dob'].value);
+      formData.append('address', this.userForm.controls['address'].value);
+      this.imgFile ? formData.append('profile', this.imgFile) : "";
+      formData.append('updated_user_id', this.userID);
+
+      this.userSvc.updateUser(formData, id).then((dist) => {
+        this.location.back();
+      })
     }
 
     if (this.userForm.valid) {
@@ -104,28 +133,23 @@ export class EditProfileComponent implements OnInit {
       this.userForm.controls['type'].disable();
       this.userForm.controls['dob'].disable();
       this.userForm.controls['phone'].disable();
-      //this.userForm.controls['profile'].disable();
+      this.userForm.controls['profile'].disable();
       this.confirmView = true;
     }
   }
   
-  // imageUpload(event: any) {
-  //   var file = event.target.files.length;
-  //   for(let i=0;i<file;i++)
-  //   {
-  //      var reader = new FileReader();
-  //      reader.onload = (event:any) =>
-  //      {
-  //          this.profileImage = event.target.result;
-  //          this.changeDetector.detectChanges();
-  //      }
-  //      reader.readAsDataURL(event.target.files[i]);
-  //   }
-  // }
+  imageUpload(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      this.imgFile = file;
+      const reader = new FileReader();
+      reader.onload = e => this.profileImage = reader.result;
+      reader.readAsDataURL(file);
 
-  // handleImageLoad()
-  // {
-  //   this.Imageloaded = true;
-  // }
+    }
+  }
 
+  OnDateChange(event: any) {
+    this.pickDate = event;
+  }
 }
