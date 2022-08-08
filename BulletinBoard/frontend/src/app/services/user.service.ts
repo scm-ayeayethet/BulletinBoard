@@ -12,17 +12,17 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public getUsers():Promise<any>{
+  public getUsers(): Promise<any> {
     const token = localStorage.getItem('token') || null;
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
     const headerOptions = new HttpHeaders()
-    .set('Content-Type' , "application/json;charset=utf-8;")
-    .set('Authorization',`Bearer ${token}`)
-    .set('userType',userData.type)
-    .set('userId',userData._id);
-    const options = { headers : headerOptions };
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`,options));
+      .set('Content-Type', "application/json;charset=utf-8;")
+      .set('Authorization', `Bearer ${token}`)
+      .set('userType', userData.type)
+      .set('userId', userData._id);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, options));
   }
 
   public findByName(payload: any): Promise<any> {
@@ -48,21 +48,21 @@ export class UserService {
     return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId, options));
   }
 
-  public createUser(payload:any):Promise<any>{
+  public createUser(payload: any): Promise<any> {
     const token = localStorage.getItem('token') || null;
     const headerOptions = new HttpHeaders()
-    .set('Authorization',`Bearer ${token}`);
-    const options = { headers: headerOptions}
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`,payload,options));
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions }
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload, options));
   }
 
-  public findUser(payload:any,userId: any): Promise<any> {
+  public findUser(payload: any, userId: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
     const headerOptions = new HttpHeaders()
       .set('Content-Type', 'application/json;charset=utf-8;')
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/` + userId,payload, options));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/` + userId, payload, options));
   }
 
   public updateUser(payload: any, userId: any): Promise<any> {
@@ -71,5 +71,9 @@ export class UserService {
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
     return lastValueFrom(this.http.put(`${environment.apiUrl}/users/` + userId, payload, options));
+  }
+
+  public createAccount(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/signup`, payload));
   }
 }

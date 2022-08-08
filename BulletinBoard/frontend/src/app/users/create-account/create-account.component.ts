@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 import { MustMatch } from 'src/app/validators/must-match.validator';
 
 @Component({
@@ -15,6 +16,7 @@ export class CreateAccountComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private userSvc: UserService
   ) { }
 
   ngOnInit(): void {
@@ -36,11 +38,19 @@ export class CreateAccountComponent implements OnInit {
   }
 
   clearData() {
-      this.createAccForm.reset();
+    this.createAccForm.reset();
   }
 
   createAcc() {
-      this.router.navigate(["posts-list"]);
+    const payload = {
+      name: this.createAccForm.controls['name'].value,
+      email: this.createAccForm.controls['email'].value,
+      password: this.createAccForm.controls['password'].value,
+      confirmPwd: this.createAccForm.controls['confirmPwd'].value
+    };
+    this.userSvc.createAccount(payload).then((dist) => {
+    });
+    this.router.navigate(["/login"]);
   }
 
 }

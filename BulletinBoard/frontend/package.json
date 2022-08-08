@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "@types/bcryptjs": "^2.4.2",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.1",
     "dotenv-webpack": "^8.0.0",
     "mat-table-exporter": "^10.2.4",
@@ -27,7 +29,8 @@
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "rxjs": "~7.5.0",
-    "tslib": "^2.3.0",
+    "tslib": "^2.4.0",
+    "util": "^0.12.4",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

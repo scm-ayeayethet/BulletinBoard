@@ -24,6 +24,9 @@ import { CreateAccountComponent } from './users/create-account/create-account.co
 import { HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
+// @NgModule({
+  
+// })
 @NgModule({
   declarations: [
     AppComponent,
