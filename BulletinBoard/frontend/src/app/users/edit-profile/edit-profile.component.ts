@@ -72,6 +72,7 @@ export class EditProfileComponent implements OnInit {
 
     const data: any = localStorage.getItem('userLoginData') || "";
     this.user = JSON.parse(data);
+    this.userID = this.user._id;
   }
 
   get myForm() {

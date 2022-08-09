@@ -4,7 +4,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { USERS } from 'src/app/constants/constants';
 import * as moment from 'moment';
 import { ListModalComponent } from 'src/app/components/list-modal/list-modal.component';
 import { UserService } from 'src/app/services/user.service';
@@ -42,8 +41,6 @@ export class UsersListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-
-    // this.userInfo = JSON.parse(localStorage.getItem('userLoginData') || '[]');
     this.getUserData();
   }
 
@@ -76,20 +73,20 @@ export class UsersListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     })
   }
-userDetail(data:any){
-  this.dialog.open(ListModalComponent, {
-    width: '40%',
-    data: {
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          address: data.address,
-          dob: new Date(data.dob).toLocaleString(),
-          createdAt: new Date(data.createdAt).toLocaleString(),
-          updatedAt:new Date(data.updatedAt).toLocaleString()
-    }
-  });
-}
+  userDetail(data: any) {
+    this.dialog.open(ListModalComponent, {
+      width: '40%',
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        dob: new Date(data.dob).toLocaleString(),
+        createdAt: new Date(data.createdAt).toLocaleString(),
+        updatedAt: new Date(data.updatedAt).toLocaleString()
+      }
+    });
+  }
   onClickUserCreate() {
     this.router.navigate(['/user']);
   }
