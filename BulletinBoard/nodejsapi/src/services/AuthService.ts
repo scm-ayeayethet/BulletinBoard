@@ -121,3 +121,41 @@ export const resetPasswordService = async (req: Request, res: Response) => {
     console.log(error);
   }
 }
+
+export const passwordChangeService = async (req: Request, res: Response) => {
+  try {
+    await User.findById(req.params.userId)
+      .then(async (user: any) => {
+        if (!user) {
+          return res.status(401).send({
+            success: false,
+            message: 'Could not find user'
+          })
+        }
+
+        const token = req.params.token;
+        if (!token) return res.status(400).send("Unauthorized");
+
+
+        if (!compareSync(req.body.oldPassword, user.password)) {
+          return res.status(401).send({
+            success: false,
+            message: 'Incorrect password'
+          });
+        }
+
+        if (compareSync(req.body.newPassword, user.password)) {
+          return res.status(401).send({
+            success: false,
+            message: 'Current Password and New Password are same.'
+          });
+        }
+
+        user.password = await bcrypt.hash(req.body.newPassword, 12);
+        await user.save();
+        res.json({ message: "Password Change Successfully!" });
+      })
+  } catch (error) {
+    res.send("An error occured");
+  }
+}

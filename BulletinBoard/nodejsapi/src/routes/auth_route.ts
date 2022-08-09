@@ -1,7 +1,7 @@
 import express from 'express';
 import { createUser } from '../controllers/UserController';
 import { body } from 'express-validator';
-import { forgotPassword, resetPassword, checkResetPassword } from '../controllers/AuthController';
+import { forgotPassword, resetPassword, checkResetPassword, passwordChange } from '../controllers/AuthController';
 import { logout, login } from '../controllers/AuthController';
 
 
@@ -42,5 +42,9 @@ router
 router
   .route('/password-reset-update/:userId/:token')
   .post(resetPassword);
+
+router
+  .route('/password-change/:userId/:token')
+  .post(passwordChange);
 
 export default router;

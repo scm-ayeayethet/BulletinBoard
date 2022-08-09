@@ -36,4 +36,7 @@ export class AuthService {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/logout`, {}, options));
   }
 
+  public passwordChange(id: string, payload: any, token: string): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/password-change/${id}/${token}`, payload));
+  }
 }

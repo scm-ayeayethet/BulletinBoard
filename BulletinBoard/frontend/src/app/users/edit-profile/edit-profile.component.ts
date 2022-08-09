@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { USERS } from 'src/app/constants/constants';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Location } from '@angular/common';
 
@@ -12,11 +11,11 @@ import { Location } from '@angular/common';
 })
 export class EditProfileComponent implements OnInit {
 
-  confirmView : boolean = false;
+  confirmView: boolean = false;
   profileImage: any;
-  Imageloaded:boolean = false;
-  imgFile:any;
-  userInfoId:any;
+  Imageloaded: boolean = false;
+  imgFile: any;
+  userInfoId: any;
   typeOption = [
     { enum: 'Admin' },
     { enum: 'User' }
@@ -25,16 +24,16 @@ export class EditProfileComponent implements OnInit {
   today = new Date();
   userData: any;
   public userID: any;
+  public user: any;
   public userForm!: FormGroup;
   public existingUser: any;
 
   constructor(
     private fb: FormBuilder,
-    private location :Location,
-    private router: Router,
+    private location: Location,
     private activatedRoute: ActivatedRoute,
-    private userSvc : UserService
-  ) { 
+    private userSvc: UserService
+  ) {
     this.userForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
@@ -44,10 +43,10 @@ export class EditProfileComponent implements OnInit {
       ]),
       dob: new FormControl(''),
       address: new FormControl(''),
-      profile : new FormControl('')
+      profile: new FormControl('')
     });
 
-    const id:string = this.activatedRoute.snapshot.params['id'];
+    const id: string = this.activatedRoute.snapshot.params['id'];
 
     const payload = {};
     this.userSvc.findUser(payload, id).then((dist) => {
@@ -60,15 +59,11 @@ export class EditProfileComponent implements OnInit {
         this.userForm.controls['type'].setValue(this.userData.type);
         this.userForm.controls['dob'].setValue(this.userData.dob);
         this.profileImage = 'http://localhost:5000/' + this.userData.profile;
-        //this.userForm.controls['profile'].setValue(this.profileImage);
       }
     })
   }
 
   ngOnInit(): void {
-    // const info: any = localStorage.getItem('userLoginData') || "";
-    // const data = JSON.parse(info);
-    // this.userInfoId = data._id; 
     const id: string = this.activatedRoute.snapshot.params['id'];
     const payload = {};
     this.userSvc.findUser(payload, id).then((dist) => {
@@ -76,7 +71,7 @@ export class EditProfileComponent implements OnInit {
     });
 
     const data: any = localStorage.getItem('userLoginData') || "";
-    this.userID = JSON.parse(data)._id;
+    this.user = JSON.parse(data);
   }
 
   get myForm() {
@@ -108,7 +103,7 @@ export class EditProfileComponent implements OnInit {
 
   confirmUser() {
     const id: string = this.activatedRoute.snapshot.params['id'];
- 
+
     if (this.confirmView == true) {
 
       const formData = new FormData();
@@ -137,7 +132,7 @@ export class EditProfileComponent implements OnInit {
       this.confirmView = true;
     }
   }
-  
+
   imageUpload(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
