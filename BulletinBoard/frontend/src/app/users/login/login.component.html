@@ -1,7 +1,7 @@
 <div class="login-container">
   <h2> Login Form </h2>
   <div class="error-alert" *ngIf="loginErrMsg">{{loginErrMsg}}</div>
-  
+
   <div class="form-container">
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
       <mat-form-field appearance="outline">
@@ -18,7 +18,7 @@
 
       <div class="forgetPwd">
         <mat-checkbox class="rememberme" color="primary" formControlName="rememberme">Remember Me</mat-checkbox>
-        <a [routerLink]="['/forgotPwd']" class="fgPwd">forgotten password?</a>
+        <a [routerLink]="['/forget-password']" class="fgPwd">forgotten password?</a>
       </div>
 
       <div class="login-btn">

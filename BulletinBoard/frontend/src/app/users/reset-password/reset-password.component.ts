@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { PlainmodalComponent } from 'src/app/components/plainmodal/plainmodal.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,42 +10,54 @@ import { PlainmodalComponent } from 'src/app/components/plainmodal/plainmodal.co
 })
 export class ResetPasswordComponent implements OnInit {
 
-  resetPwdForm!:FormGroup;
+  resetPwdForm!: FormGroup;
+  public errorMsg: string = '';
+  public userId: string = '';
+  public token: string = '';
+  public passwordMatch: boolean = true;
+  public userData: any;
 
   constructor(
-    private fb: FormBuilder,
     private router: Router,
-    private dialog : MatDialog
+    private activatedRoute: ActivatedRoute,
+    private authSvc: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.resetPwdForm = this.fb.group({
-      password: ['', [
-        Validators.required,
-        Validators.pattern('(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$')]],
-      confirmPwd: ['', [Validators.required]],
+
+    this.resetPwdForm = new FormGroup({
+      password: new FormControl('', Validators.required),
+      confirmPassword: new FormControl('', Validators.required),
+    });
+    this.userId = this.activatedRoute.snapshot.params['userId'];
+    this.token = this.activatedRoute.snapshot.params['token'];
+
+    this.authSvc.resetPassword(this.userId, this.token).then((data: any) => {
+      this.resetPwdForm = new FormGroup({
+        password: new FormControl('', Validators.required),
+        confirmPassword: new FormControl('', Validators.required),
       });
+    }).catch((err: any) => {
+      this.router.navigate(['/forget-password', { forgetPassword: "failed" }]);
+    });
   }
 
-  get myForm() {
-    return this.resetPwdForm.controls;
+  public hasError = (controlName: string, errorName: string) => {
+    return this.resetPwdForm.controls[controlName].hasError(errorName);
   }
 
-  resetPassword(){
-    if(this.resetPwdForm.controls['password'].value && this.resetPwdForm.controls['confirmPwd'].value
-    && this.resetPwdForm.controls['password'].value === this.resetPwdForm.controls['confirmPwd'].value)
-    {
-      this.router.navigate(["/login"]);
+  resetPassword() {
+    if (this.resetPwdForm.controls['password'].value && this.resetPwdForm.controls['confirmPassword'].value &&
+      this.resetPwdForm.controls['password'].value !== this.resetPwdForm.controls['confirmPassword'].value) {
+      this.errorMsg = "Password and Password confirmation are not matched";
+    } else {
+      const payload = {
+        password: this.resetPwdForm.controls['password'].value
+      }
+      this.authSvc.resetPasswordUpdate(this.userId, this.token, payload).then((dist) => {
+
+      })
+      this.router.navigate(['/login']);
     }
-    else{
-      this.dialog.open(PlainmodalComponent, {
-        data: {
-          content: `Password and ConfirmPassword must be match...`,
-          note: '',
-          applyText: 'Ok'
-        }
-      });
-    }
   }
-
 }

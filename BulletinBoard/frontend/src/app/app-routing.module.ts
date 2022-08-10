@@ -25,11 +25,11 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'forgotPwd',
+    path: 'forget-password',
     component: ForgotPasswordComponent
   },
   {
-    path: 'resetPwd',
+    path: 'forget-password-update/:userId/:token',
     component: ResetPasswordComponent
   },
   {

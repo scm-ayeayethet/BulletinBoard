@@ -39,4 +39,16 @@ export class AuthService {
   public passwordChange(id: string, payload: any, token: string): Promise<any> {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/password-change/${id}/${token}`, payload));
   }
+
+  public forgetPassword(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/forgot-password`, payload));
+  }
+
+  public resetPassword(id: string, token: string): Promise<any> {
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/password-reset/${id}/${token}`));
+  }
+
+  public resetPasswordUpdate(id: string, token: string, payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/password-reset-update/${id}/${token}`, payload));
+  }
 }

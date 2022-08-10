@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { PlainmodalComponent } from 'src/app/components/plainmodal/plainmodal.component';
-import { USERS } from 'src/app/constants/constants';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,20 +10,26 @@ import { USERS } from 'src/app/constants/constants';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  forgotPwdForm!:FormGroup;
+  forgotPwdForm!: FormGroup;
+  emailErr = '';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
-    private dialog : MatDialog
+    private authSvc: AuthService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.forgotPwdForm = this.fb.group({
+    this.forgotPwdForm = new FormGroup({
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ]))
+    });
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('forgetPassword') === 'failed') {
+        this.emailErr = 'Your token has expired. Please try again';
+      }
     })
   }
 
@@ -33,20 +37,14 @@ export class ForgotPasswordComponent implements OnInit {
     return this.forgotPwdForm.controls;
   }
 
-  forgotPassword(){
-    const result = USERS.find(data => data.email === this.forgotPwdForm.controls['email'].value);
-    if(result){
-      this.router.navigate(["/resetPwd"]);
-    }else{
-      this.dialog.open(PlainmodalComponent, {
-        width: '30%',
-        data: {
-          content: `Email dosen't exit...`,
-          note: '',
-          applyText: 'Ok'
-        }
-      });
-    }
+  resetPassword() {
+    let payload = {
+      email: this.forgotPwdForm.controls['email'].value
+    };
+    this.authSvc.forgetPassword(payload).then((dist: any) => {
+      this.emailErr = "Email sent with password reset instructions.";
+    }).catch((err: any) => {
+      this.emailErr = "Email does not exist.";
+    });
   }
-
 }
