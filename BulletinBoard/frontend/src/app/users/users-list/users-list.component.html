@@ -1,107 +1,107 @@
 <div class="user-container">
-    <h2 class="title">User List</h2>
-    <div class="search-blk">
-      <!-- Name Search -->
-      <mat-form-field appearance="outline" class="filter">
-        <mat-label>Name</mat-label>
-        <input matInput [(ngModel)]="username" placeholder="Name">
-      </mat-form-field>
-  
-      <!--Email Search -->
-      <mat-form-field appearance="outline" class="filter">
-        <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="email" placeholder="Email">
-      </mat-form-field>
-  
-      <!-- Date Search -->
-      <mat-form-field appearance="outline" class="filter">
-        <mat-label>Created From && Created To</mat-label>
-        <mat-date-range-input [rangePicker]="campaignOnePicker">
-          <input matStartDate [(ngModel)]="fromDate" placeholder="Check-in date">
-          <input matEndDate [(ngModel)]="toDate" placeholder="Check-out date">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
-      </mat-form-field>
-  
-      <div class="btn-blk">
-        <button mat-flat-button color="primary" (click)="onSearch()" class="btn-search">
-          <mat-icon>search</mat-icon> Search
-        </button>
-        <button mat-flat-button color="primary" (click)="onClickUserCreate()">
-          <mat-icon>person_add</mat-icon>Add User
-        </button>
-      </div>
-    </div>
-  
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" class="user-table">
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let user">
-            <a class="userTitle" (click)="userDetail(user)">
-              {{user.name}}
-            </a>
-          </td>
-        </ng-container>
-  
-        <!-- Email Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let user"> {{user.email}} </td>
-        </ng-container>
-  
-        <!-- Created User Column -->
-        <ng-container matColumnDef="created_user_id">
-          <th mat-header-cell *matHeaderCellDef> Created User </th>
-          <td mat-cell *matCellDef="let user"> {{user.created_username}} </td>
-        </ng-container>
-  
-        <!-- Phone Column -->
-        <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef> Phone </th>
-          <td mat-cell *matCellDef="let user"> {{user.phone || '-'}} </td>
-        </ng-container>
-  
-        <!-- DOB Column -->
-        <ng-container matColumnDef="dob">
-          <th mat-header-cell *matHeaderCellDef> Birth Date </th>
-          <td mat-cell *matCellDef="let user"> {{user.dob | date: 'shortDate'}} </td>
-        </ng-container>
-  
-        <!-- Address Column -->
-        <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef> Address </th>
-          <td mat-cell *matCellDef="let user"> {{user.address || '-'}} </td>
-        </ng-container>
-  
-        <!-- Created Date Column -->
-        <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef> Created Date </th>
-          <td mat-cell *matCellDef="let user"> {{user.createdAt | date: 'yyyy/MM/dd a'}} </td>
-        </ng-container>
-  
-        <!-- Updated Date Column -->
-        <ng-container matColumnDef="updated_at">
-          <th mat-header-cell *matHeaderCellDef> Updated Date </th>
-          <td mat-cell *matCellDef="let user"> {{user.updatedAt | date: 'yyyy/MM/dd a'}} </td>
-        </ng-container>
-  
-        <!-- Delete Column -->
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef> </th>
-          <td mat-cell *matCellDef="let user">
-            <button mat-icon-button (click)="deleteUserData(user._id)" color="warn">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-      </table>
-  
-      <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  <h2 class="title">User List</h2>
+  <div class="search-blk">
+    <!-- Name Search -->
+    <mat-form-field appearance="outline" class="filter">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="username" placeholder="Name">
+    </mat-form-field>
+
+    <!--Email Search -->
+    <mat-form-field appearance="outline" class="filter">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="email" placeholder="Email">
+    </mat-form-field>
+
+    <!-- Date Search -->
+    <mat-form-field appearance="outline" class="filter">
+      <mat-label>Created From && Created To</mat-label>
+      <mat-date-range-input [rangePicker]="campaignOnePicker">
+        <input matStartDate [(ngModel)]="fromDate" placeholder="Check-in date">
+        <input matEndDate [(ngModel)]="toDate" placeholder="Check-out date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+    </mat-form-field>
+
+    <div class="btn-blk">
+      <button mat-flat-button color="primary" (click)="onSearch()" class="btn-search">
+        <mat-icon>search</mat-icon> Search
+      </button>
+      <button mat-flat-button color="primary" (click)="onClickUserCreate()">
+        <mat-icon>person_add</mat-icon>Add User
+      </button>
     </div>
   </div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="user-table">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let user">
+          <a class="userTitle" (click)="userDetail(user)">
+            {{user.name}}
+          </a>
+        </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+      </ng-container>
+
+      <!-- Created User Column -->
+      <ng-container matColumnDef="created_user_id">
+        <th mat-header-cell *matHeaderCellDef> Created User </th>
+        <td mat-cell *matCellDef="let user"> {{user.created_username}} </td>
+      </ng-container>
+
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let user"> {{user.phone || '-'}} </td>
+      </ng-container>
+
+      <!-- DOB Column -->
+      <ng-container matColumnDef="dob">
+        <th mat-header-cell *matHeaderCellDef> Birth Date </th>
+        <td mat-cell *matCellDef="let user"> {{user.dob | date: 'shortDate'}} </td>
+      </ng-container>
+
+      <!-- Address Column -->
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let user"> {{user.address || '-'}} </td>
+      </ng-container>
+
+      <!-- Created Date Column -->
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef> Created Date </th>
+        <td mat-cell *matCellDef="let user"> {{user.createdAt | date: 'yyyy/MM/dd a'}} </td>
+      </ng-container>
+
+      <!-- Updated Date Column -->
+      <ng-container matColumnDef="updated_at">
+        <th mat-header-cell *matHeaderCellDef> Updated Date </th>
+        <td mat-cell *matCellDef="let user"> {{user.updatedAt | date: 'yyyy/MM/dd a'}} </td>
+      </ng-container>
+
+      <!-- Delete Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let user">
+          <button mat-icon-button (click)="deleteUserData(user._id)" color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

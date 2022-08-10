@@ -35,7 +35,6 @@ export class UploadCsvComponent implements OnInit {
       this.noFileErrMsg = "Please select a file";
       this.onClear();
     }
-    console.log(this.uploadData)
     this.postSvc.createPost(this.uploadData).then((dist) => {
       this.router.navigate(["/posts-list"]);
     });

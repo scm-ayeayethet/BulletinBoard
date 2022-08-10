@@ -55,7 +55,6 @@ export class ResetPasswordComponent implements OnInit {
         password: this.resetPwdForm.controls['password'].value
       }
       this.authSvc.resetPasswordUpdate(this.userId, this.token, payload).then((dist) => {
-
       })
       this.router.navigate(['/login']);
     }

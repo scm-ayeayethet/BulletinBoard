@@ -1,50 +1,49 @@
 .container {
-    width: 35%;
-    margin: 30px auto;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    padding: 0 15px 20px 15px;
-  
-    h2 {
-      padding: 20px 15px 0 15px;
-      font-size: 28px;
-      text-align: center;
-      color: #0000ff;
-    }
+  width: 35%;
+  margin: 30px auto;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 0 15px 20px 15px;
 
-    .profileimg {
-      object-fit: cover;
-      display: inline-block;
-      //margin-bottom: 120px;
-      margin-left: 24.5%;
-      height: 80%;
-      width: 50%;
-    }
-  
-    .user-table {
-      padding: 0 15px;
-      font-size: 14px;
-  
-      td {
-        padding: 10px 0;
-      }
-  
-      .label {
-        padding-right: 30px;
-      }
-  
-      .edit-btn {
-        padding: 5px 0 10px 0;
-        margin-left: 0;
-
-        button{
-          padding: 5px 8px;
-          background-color:dodgerblue;
-          border: 0;
-          color: white;
-          border-radius: 3px;
-        }
-      }
-  
-    }
+  h2 {
+    padding: 20px 15px 0 15px;
+    font-size: 28px;
+    text-align: center;
+    color: #0000ff;
   }
+
+  .profileimg {
+    object-fit: cover;
+    display: inline-block;
+    margin-left: 24.5%;
+    height: 80%;
+    width: 50%;
+  }
+
+  .user-table {
+    padding: 0 15px;
+    font-size: 14px;
+
+    td {
+      padding: 10px 0;
+    }
+
+    .label {
+      padding-right: 30px;
+    }
+
+    .edit-btn {
+      padding: 5px 0 10px 0;
+      margin-left: 0;
+
+      button {
+        padding: 5px 8px;
+        background-color: dodgerblue;
+        border: 0;
+        color: white;
+        border-radius: 3px;
+      }
+    }
+
+  }
+}

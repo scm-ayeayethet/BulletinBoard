@@ -16,7 +16,6 @@ export class PostsListComponent implements OnInit {
 
   keyword = "";
   postArr: any = [];
-  //postData: any = [];
   postLists: any;
   public allPost: any = [];
   public eachData: any = [];
@@ -55,9 +54,7 @@ export class PostsListComponent implements OnInit {
           Posted_Date: new Date(result.createdAt).toLocaleString()
         };
 
-        //this.postArr.push(res);
       })
-      //this.postData = this.postArr;
       this.dataSource = new MatTableDataSource(this.allPost);
       this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
@@ -98,9 +95,10 @@ export class PostsListComponent implements OnInit {
         title: data.title,
         description: data.description,
         status: data.status,
-        created_user_id: data.created_user_id,
-        createdAt: new Date(data.createdAt).toLocaleString(),
-        updatedAt: new Date(data.updatedAt).toLocaleString()
+        posted_user: data.created_user_id ? data.created_user_id["name"] : data.updated_user_id["name"],
+        posted_date: data.createdAt ? data.createdAt : data.updatedAt,
+        // createdAt: new Date(data.createdAt).toLocaleString(),
+        // updatedAt: new Date(data.updatedAt).toLocaleString()
       }
     });
   }

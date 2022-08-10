@@ -12,11 +12,11 @@ export class AppComponent implements OnInit {
   showNavBar = true;
   user: any = null;
   userData: any;
-  userInfo:any;
+  userInfo: any;
 
   constructor(
     private router: Router,
-    private authSvc : AuthService) {
+    private authSvc: AuthService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (this.router.url === '/login' || this.router.url === '/') {
@@ -33,15 +33,13 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public profile(userId:any) {
-    // const data: any = localStorage.getItem('userLoginData') || "";
-    // this.userInfo = JSON.parse(data)._id;
+  public profile(userId: any) {
     this.router.navigate(['/user-profile/' + userId]);
   }
 
   logout() {
     this.authSvc.logout().then((dist: any) => {
-      //localStorage.removeItem('userId');
+      localStorage.removeItem('userId');
       localStorage.clear();
       this.authSvc.isLoggedIn();
       this.router.navigate(['/login']);

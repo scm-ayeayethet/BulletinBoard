@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularmaterialsModule } from './angularmaterials.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './users/login/login.component';
@@ -21,7 +22,6 @@ import { ForgotPasswordComponent } from './users/forgot-password/forgot-password
 import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { CreateAccountComponent } from './users/create-account/create-account.component';
-import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({

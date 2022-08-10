@@ -1,7 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { USERS } from 'src/app/constants/constants';
 import { UserService } from 'src/app/services/user.service';
 import { MustMatch } from 'src/app/validators/must-match.validator';
 
@@ -12,13 +11,13 @@ import { MustMatch } from 'src/app/validators/must-match.validator';
 })
 export class UserCreateConfirmComponent implements OnInit {
 
-  confirmView : boolean = false;
+  confirmView: boolean = false;
   value!: number;
   label!: string;
   profileImage: any;
-  Imageloaded:boolean = false;
-  imgFile:any;
-  userInfo:any;
+  Imageloaded: boolean = false;
+  imgFile: any;
+  userInfo: any;
   typeOption = [
     { enum: 'Admin' },
     { enum: 'User' }
@@ -35,7 +34,6 @@ export class UserCreateConfirmComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private changeDetector:ChangeDetectorRef,
     private userSvc: UserService
   ) { }
 
@@ -57,7 +55,7 @@ export class UserCreateConfirmComponent implements OnInit {
       ]],
       dob: [''],
       address: [''],
-      profile : ['', [Validators.required]]
+      profile: ['', [Validators.required]]
     },
       {
         validator: MustMatch('password', 'confirmPwd')
@@ -97,17 +95,17 @@ export class UserCreateConfirmComponent implements OnInit {
     if (this.confirmView == true) {
       const formData = new FormData();
       formData.append('name', this.userForm.controls['name'].value);
-      formData.append('email',this.userForm.controls['email'].value);
-      formData.append('password',this.userForm.controls['password'].value);
-      formData.append('type',this.userForm.controls['type'].value);
-      formData.append('phone',this.userForm.controls['phone'].value);
-      formData.append('address',this.userForm.controls['address'].value);
-      formData.append('dob',this.userForm.controls['dob'].value);
-      formData.append('profile',this.imgFile);
-      formData.append('created_user_id',this.userInfo);
+      formData.append('email', this.userForm.controls['email'].value);
+      formData.append('password', this.userForm.controls['password'].value);
+      formData.append('type', this.userForm.controls['type'].value);
+      formData.append('phone', this.userForm.controls['phone'].value);
+      formData.append('address', this.userForm.controls['address'].value);
+      formData.append('dob', this.userForm.controls['dob'].value);
+      formData.append('profile', this.imgFile);
+      formData.append('created_user_id', this.userInfo);
 
-      this.userSvc.createUser(formData).then((dist)=>{
-        this.router.navigate(["users-list",{msg:"success"}]);
+      this.userSvc.createUser(formData).then((dist) => {
+        this.router.navigate(["users-list", { msg: "success" }]);
       })
     }
 
@@ -124,22 +122,16 @@ export class UserCreateConfirmComponent implements OnInit {
       this.confirmView = true;
     }
   }
-  
+
   imageUpload(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       this.imgFile = file;
-      console.log(this.imgFile)
       const reader = new FileReader();
       reader.onload = e => this.profileImage = reader.result;
       reader.readAsDataURL(file);
     }
   }
-
-  // handleImageLoad()
-  // {
-  //   this.Imageloaded = true;
-  // }
 
   OnDateChange(event: any) {
     this.pickDate = event;

@@ -90,5 +90,4 @@ export class UsersListComponent implements OnInit {
   onClickUserCreate() {
     this.router.navigate(['/user']);
   }
-
 }

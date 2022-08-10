@@ -9,28 +9,28 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  profileImage:any;
+  profileImage: any;
   userData: any;
   public userInfo: any;
 
-  public name! : string;
-  public email! : string;
-  public type! : string;
-  public dob! : string;
-  public address! :string;
-  public phone! :string;
-  public profile! : string
+  public name!: string;
+  public email!: string;
+  public type!: string;
+  public dob!: string;
+  public address!: string;
+  public phone!: string;
+  public profile!: string
 
   constructor(
-    private router : Router,
-    private activatedRoute : ActivatedRoute,
-    private userSvc : UserService
-    ) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private userSvc: UserService
+  ) { }
 
   ngOnInit(): void {
-    const id :string = this.activatedRoute.snapshot.params['id'];
+    const id: string = this.activatedRoute.snapshot.params['id'];
     const payload = {};
-    this.userSvc.findUser(payload,id).then((dist) => {
+    this.userSvc.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
       if (this.userData) {
         this.name = this.userData.name;
@@ -42,13 +42,11 @@ export class UserProfileComponent implements OnInit {
         this.profileImage = 'http://localhost:5000/' + this.userData.profile;
       }
     })
-    
   }
 
-  editProfile(){
+  editProfile() {
     const data: any = localStorage.getItem('userLoginData') || "";
     this.userInfo = JSON.parse(data)._id;
     this.router.navigate(["/edit-profile/", this.userInfo]);
   }
-
 }

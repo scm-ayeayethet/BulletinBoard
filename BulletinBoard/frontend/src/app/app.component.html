@@ -1,28 +1,27 @@
 <mat-toolbar color="primary" *ngIf="showNavBar">
-    <div class="nav">
-      <span class="title" [routerLink]="['/posts-list']">SCM Bulletin Board</span>
-      <a mat-flat-button color="primary" [routerLink]="['/users-list']" routerLinkActive="active">Users</a>
-      <a mat-flat-button color="primary" [routerLink]="['/posts-list']" routerLinkActive="active">Posts</a>
-      <span class="rt-nav">
-        <a mat-button *ngIf="user?._id" class="profile" (click)="profile(user?._id)">
-          <mat-icon>person</mat-icon>{{user.name}}
-        </a>
-        <a mat-flat-button color="warn" (click)="logout()">
-          <mat-icon>exit_to_app</mat-icon>Logout
-        </a>
-      </span>
-    </div>
-  </mat-toolbar>
-  <mat-toolbar color="primary" *ngIf="!showNavBar">
-    <div class="nav">
-      <span class="title" [routerLink]="['/login']">SCM Bulletin Board</span>
-    </div>
-  </mat-toolbar>
+  <div class="nav">
+    <span class="title" [routerLink]="['/posts-list']">SCM Bulletin Board</span>
+    <a mat-flat-button color="primary" [routerLink]="['/users-list']" routerLinkActive="active">Users</a>
+    <a mat-flat-button color="primary" [routerLink]="['/posts-list']" routerLinkActive="active">Posts</a>
+    <span class="rt-nav">
+      <a mat-button *ngIf="user?._id" class="profile" (click)="profile(user?._id)">
+        <mat-icon>person</mat-icon>{{user.name}}
+      </a>
+      <a mat-flat-button color="warn" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>Logout
+      </a>
+    </span>
+  </div>
+</mat-toolbar>
+<mat-toolbar color="primary" *ngIf="!showNavBar">
+  <div class="nav">
+    <span class="title" [routerLink]="['/login']">SCM Bulletin Board</span>
+  </div>
+</mat-toolbar>
 
-  <router-outlet></router-outlet>
-  
-  <mat-toolbar color="primary" class="footer">
-    <span class="rt-blk">Seattle Consulting Myanmar</span>
-    <!-- <span class="spacer"></span> -->
-    <span class="lt-blk">Copyright © Seattle Consulting Myanmar Co., Ltd. All rights reserved.</span>
-  </mat-toolbar>
+<router-outlet></router-outlet>
+
+<mat-toolbar color="primary" class="footer">
+  <span class="rt-blk">Seattle Consulting Myanmar</span>
+  <span class="lt-blk">Copyright © Seattle Consulting Myanmar Co., Ltd. All rights reserved.</span>
+</mat-toolbar>

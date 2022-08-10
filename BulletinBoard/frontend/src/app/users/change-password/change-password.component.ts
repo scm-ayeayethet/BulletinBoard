@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MustMatch } from 'src/app/validators/must-match.validator';
 import { AuthService } from 'src/app/services/auth.service';
@@ -25,7 +24,6 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private authSvc: AuthService) { }

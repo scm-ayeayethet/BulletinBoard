@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,7 +14,6 @@ export class ForgotPasswordComponent implements OnInit {
   emailErr = '';
 
   constructor(
-    private fb: FormBuilder,
     private authSvc: AuthService,
     private activatedRoute: ActivatedRoute
   ) { }
