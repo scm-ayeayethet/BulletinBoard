@@ -44,9 +44,10 @@ export class EditProfileComponent implements OnInit {
       address: new FormControl(''),
       profile: new FormControl('')
     });
+  }
 
+  ngOnInit(): void {
     const id: string = this.activatedRoute.snapshot.params['id'];
-
     const payload = {};
     this.userSvc.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
@@ -59,16 +60,7 @@ export class EditProfileComponent implements OnInit {
         this.userForm.controls['dob'].setValue(this.userData.dob);
         this.profileImage = 'http://localhost:5000/' + this.userData.profile;
       }
-    })
-  }
-
-  ngOnInit(): void {
-    const id: string = this.activatedRoute.snapshot.params['id'];
-    const payload = {};
-    this.userSvc.findUser(payload, id).then((dist) => {
-      this.userData = dist.data;
     });
-
     const data: any = localStorage.getItem('userLoginData') || "";
     this.user = JSON.parse(data);
     this.userID = this.user._id;
@@ -103,9 +95,7 @@ export class EditProfileComponent implements OnInit {
 
   confirmUser() {
     const id: string = this.activatedRoute.snapshot.params['id'];
-
     if (this.confirmView == true) {
-
       const formData = new FormData();
       formData.append('name', this.userForm.controls['name'].value);
       formData.append('email', this.userForm.controls['email'].value);
@@ -120,7 +110,6 @@ export class EditProfileComponent implements OnInit {
         this.router.navigate(['/user-profile/' + id]);
       })
     }
-
     if (this.userForm.valid) {
       this.userForm.controls['name'].disable();
       this.userForm.controls['email'].disable();
@@ -140,7 +129,6 @@ export class EditProfileComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = e => this.profileImage = reader.result;
       reader.readAsDataURL(file);
-
     }
   }
 
