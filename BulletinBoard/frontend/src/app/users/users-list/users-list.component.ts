@@ -66,13 +66,13 @@ export class UsersListComponent implements OnInit {
     this.email ? payload['email'] = this.email : '';
     this.fromDate ? payload['fromDate'] = moment(this.fromDate).format('YYYY/MM/DD') : '';
     this.toDate ? payload['toDate'] = moment(this.toDate).format('YYYY/MM/DD') : '';
-    console.log(payload)
     this.userSvc.findByName(payload).then((dist) => {
       this.userList = dist.data;
       this.dataSource.data = this.userList;
       this.dataSource.paginator = this.paginator;
     })
   }
+  
   userDetail(data: any) {
     this.dialog.open(ListModalComponent, {
       width: '40%',

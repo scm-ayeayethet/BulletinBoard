@@ -46,15 +46,6 @@ export class PostsListComponent implements OnInit {
   getPosts() {
     this.postSvc.getPosts().then(dist => {
       this.allPost = dist.data;
-      this.allPost.map((result: any) => {
-        const res = {
-          Title: result.title,
-          Description: result.description,
-          Posted_User: result.created_user_id ? result.created_user_id["name"] : result.updated_user_id["name"],
-          Posted_Date: new Date(result.createdAt).toLocaleString()
-        };
-
-      })
       this.dataSource = new MatTableDataSource(this.allPost);
       this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
