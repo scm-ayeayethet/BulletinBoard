@@ -97,8 +97,6 @@ export class PostsListComponent implements OnInit {
         status: data.status,
         posted_user: data.created_user_id ? data.created_user_id["name"] : data.updated_user_id["name"],
         posted_date: data.createdAt ? data.createdAt : data.updatedAt,
-        // createdAt: new Date(data.createdAt).toLocaleString(),
-        // updatedAt: new Date(data.updatedAt).toLocaleString()
       }
     });
   }

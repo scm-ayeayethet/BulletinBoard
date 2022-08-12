@@ -1,92 +1,83 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { CreateUpdateConfirmComponent } from './posts/create-update-confirm/create-update-confirm.component';
-import { PostsListComponent } from './posts/posts-list/posts-list.component';
-import { UploadCsvComponent } from './posts/upload-csv/upload-csv.component';
+import { CreateUpdateConfirmModule } from './posts/create-update-confirm/create-update-confirm.module';
+import { UploadCsvModule } from './posts/upload-csv/upload-csv.module';
 import { PostResolver } from './resolver/post.resolver';
-import { ChangePasswordComponent } from './users/change-password/change-password.component';
-import { CreateAccountComponent } from './users/create-account/create-account.component';
-import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
-import { ForgotPasswordComponent } from './users/forgot-password/forgot-password.component';
-import { LoginComponent } from './users/login/login.component';
-import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
-import { UserCreateConfirmComponent } from './users/user-create-confirm/user-create-confirm.component';
-import { UserProfileComponent } from './users/user-profile/user-profile.component';
-import { UsersListComponent } from './users/users-list/users-list.component';
+import { ChangePasswordModule } from './users/change-password/change-password.module';
+import { CreateAccountModule } from './users/create-account/create-account.module';
+import { EditProfileModule } from './users/edit-profile/edit-profile.module';
+import { UserCreateConfirmModule } from './users/user-create-confirm/user-create-confirm.module';
+import { UserProfileModule } from './users/user-profile/user-profile.module';
+import { UsersListModule } from './users/users-list/users-list.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    loadChildren: () => import('./users/login/login.module').then(m => m.LoginModule)
   },
   {
     path: 'login',
-    component: LoginComponent
+    loadChildren: () => import('./users/login/login.module').then(m => m.LoginModule)
   },
   {
     path: 'forget-password',
-    component: ForgotPasswordComponent
+    loadChildren: () => import('./users/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule)
   },
   {
     path: 'forget-password-update/:userId/:token',
-    component: ResetPasswordComponent
+    loadChildren: () => import('./users/reset-password/reset-password.module').then(m => m.ResetPasswordModule)
   },
   {
     path: 'posts-list',
-    component: PostsListComponent,
+    loadChildren: () => import('./posts/posts-list/posts-list.module').then(m => m.PostsListModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'create-post',
-    component: CreateUpdateConfirmComponent,
+    loadChildren: () => import('./posts/create-update-confirm/create-update-confirm.module').then(m => CreateUpdateConfirmModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'edit-post/:id',
-    component: CreateUpdateConfirmComponent,
+    loadChildren: () => import('./posts/create-update-confirm/create-update-confirm.module').then(m => CreateUpdateConfirmModule),
     canActivate: [AuthGuard],
     resolve: { post: PostResolver }
   },
   {
     path: 'upload-post',
-    component: UploadCsvComponent,
+    loadChildren: () => import('./posts/upload-csv/upload-csv.module').then(m => UploadCsvModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'users-list',
-    component: UsersListComponent,
+    loadChildren: () => import('./users/users-list/users-list.module').then(m => UsersListModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'user',
-    component: UserCreateConfirmComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'user/:id',
-    component: UserCreateConfirmComponent,
+    loadChildren: () => import('./users/user-create-confirm/user-create-confirm.module').then(m => UserCreateConfirmModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'user-profile/:id',
-    component: UserProfileComponent,
+    loadChildren: () => import('./users/user-profile/user-profile.module').then(m => UserProfileModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'edit-profile/:id',
-    component: EditProfileComponent,
+    loadChildren: () => import('./users/edit-profile/edit-profile.module').then(m => EditProfileModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'change-pwd/:id',
-    component: ChangePasswordComponent,
+    loadChildren: () => import('./users/change-password/change-password.module').then(m => ChangePasswordModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'create-account',
-    component: CreateAccountComponent
-  },
+    loadChildren: () => import('./users/create-account/create-account.module').then(m => CreateAccountModule),
+  }
 ];
 
 @NgModule({
