@@ -4,7 +4,7 @@ import { CreateUpdateConfirmComponent } from './create-update-confirm.component'
 
 const routes: Routes = [{
   path: '',
-  component:CreateUpdateConfirmComponent
+  component: CreateUpdateConfirmComponent
 }];
 
 @NgModule({

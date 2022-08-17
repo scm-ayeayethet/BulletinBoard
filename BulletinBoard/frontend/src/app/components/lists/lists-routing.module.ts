@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UploadCsvComponent } from './upload-csv.component';
+import { ListsComponent } from './lists.component';
 
-const routes: Routes = [{
-  path: '',
-  component: UploadCsvComponent
-}];
+const routes: Routes = [
+  {
+    path: '',
+    component: ListsComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UploadCsvRoutingModule { }
+export class ListsRoutingModule { }

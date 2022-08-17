@@ -190,7 +190,7 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/core@^14.0.0 || ^15.0.0", "@angular/core@^14.1.0", "@angular/core@>=10.2.4", "@angular/core@14.1.0":
+"@angular/core@^14.0.0 || ^15.0.0", "@angular/core@^14.1.0", "@angular/core@>=10.2.4", "@angular/core@>=14.0.0-0", "@angular/core@14.1.0":
   "integrity" "sha512-3quEsHmQifJOQ2oij5K+cjGjmhsKsyZI1+OTHWNZ6IXeuYviZv4U/Cui9fUJ1RN3CZxH3NzWB3gB/5qYFQfOgg=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-14.1.0.tgz"
   "version" "14.1.0"
@@ -1242,6 +1242,13 @@
   "integrity" "sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg=="
   "resolved" "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz"
   "version" "2.0.2"
+
+"@ctrl/ngx-csv@^6.0.0":
+  "integrity" "sha512-xtxS8hfzTtCfzPE/PSjdqfjZZ8atkm8cAG1eFfA0+TJqXK7p9XXG8eBu6A5UOfaka3eOFzJ3bsbTkKZYHSv7Ng=="
+  "resolved" "https://registry.npmjs.org/@ctrl/ngx-csv/-/ngx-csv-6.0.0.tgz"
+  "version" "6.0.0"
+  dependencies:
+    "tslib" "^2.3.0"
 
 "@discoveryjs/json-ext@0.5.7":
   "integrity" "sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw=="

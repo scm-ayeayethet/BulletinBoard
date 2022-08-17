@@ -23,14 +23,12 @@
         must be more than 8characters long,must contain at least 1uppercase and 1numeric.</mat-error>
     </mat-form-field>
 
-    <!-- <div *ngIf="confirmView==false"> -->
     <mat-form-field class="form-group" appearance="outline">
       <mat-label>Confirm Password</mat-label>
       <input matInput type="password" formControlName="confirmPwd">
       <mat-error *ngIf="myForm['confirmPwd'].hasError('required')">Confirm password is required</mat-error>
       <mat-error *ngIf="myForm['confirmPwd'].hasError('mustMatch')">Password must be match</mat-error>
     </mat-form-field>
-    <!-- </div> -->
 
     <mat-form-field class="form-group" appearance="outline">
       <mat-label>Type</mat-label>

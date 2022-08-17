@@ -12,7 +12,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public getUsers(): Promise<any> {
+  public getUsers(pageSize: number, pageIndex: number): Promise<any> {
     const token = localStorage.getItem('token') || null;
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
@@ -22,10 +22,10 @@ export class UserService {
       .set('userType', userData.type)
       .set('userId', userData._id);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, options));
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users?page=${pageIndex}&upp=${pageSize}`, options));
   }
 
-  public findByName(payload: any): Promise<any> {
+  public findByName(pageSize: number, pageIndex: number, payload: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
@@ -34,7 +34,7 @@ export class UserService {
       .set('userType', userData.type)
       .set('userId', userData._id);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/search`, payload, options));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/search?page=${pageIndex}&upp=${pageSize}`, payload, options));
   }
 
   public deleteUser(userId: any): Promise<any> {

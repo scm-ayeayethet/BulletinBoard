@@ -1,0 +1,125 @@
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+    <ng-container *ngIf="router.url.indexOf('/posts-list') !== -1">
+
+        <!-- Post Title -->
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Post Title </th>
+            <td mat-cell *matCellDef="let row">
+                <a class="title" (click)="postDetail(row)">
+                    {{row.title}}
+                </a>
+            </td>
+        </ng-container>
+
+        <!-- Description -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Post Description </th>
+            <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+        </ng-container>
+
+        <!-- Created User Id -->
+        <ng-container matColumnDef="created_user_id">
+            <th mat-header-cell *matHeaderCellDef> Posted User </th>
+            <td mat-cell *matCellDef="let row">
+                <div *ngIf="row?.created_user_id">
+                    {{row?.created_user_id?.name}}
+                </div>
+                <div *ngIf="!row?.created_user_id">
+                    {{row?.updated_user_id?.name}}
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Created Date -->
+        <ng-container matColumnDef="created_at" class="created_at">
+            <th mat-header-cell *matHeaderCellDef> Posted Date </th>
+            <td mat-cell *matCellDef="let row"> {{row.createdAt | date: 'yyyy/MM/dd a' }} </td>
+        </ng-container>
+
+        <!-- Action -->
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button [routerLink]="['/edit-post', row._id]" color="primary">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deletePost(row)" color="warn">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedPostColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedPostColumns;"></tr>
+    </ng-container>
+
+    <ng-container *ngIf="router.url.indexOf('/users-list') !== -1">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let user">
+                <a class="title" (click)="userDetail(user)">
+                    {{user.name}}
+                </a>
+            </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+        </ng-container>
+
+        <!-- Created User Column -->
+        <ng-container matColumnDef="created_user_id">
+            <th mat-header-cell *matHeaderCellDef> Created User </th>
+            <td mat-cell *matCellDef="let user"> {{user.created_username}} </td>
+        </ng-container>
+
+        <!-- Phone Column -->
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone </th>
+            <td mat-cell *matCellDef="let user"> {{user.phone || '-'}} </td>
+        </ng-container>
+
+        <!-- DOB Column -->
+        <ng-container matColumnDef="dob">
+            <th mat-header-cell *matHeaderCellDef> Birth Date </th>
+            <td mat-cell *matCellDef="let user"> {{user.dob | date: 'shortDate'}} </td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef> Address </th>
+            <td mat-cell *matCellDef="let user"> {{user.address || '-'}} </td>
+        </ng-container>
+
+        <!-- Created Date Column -->
+        <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef> Created Date </th>
+            <td mat-cell *matCellDef="let user"> {{user.createdAt | date: 'yyyy/MM/dd a'}} </td>
+        </ng-container>
+
+        <!-- Updated Date Column -->
+        <ng-container matColumnDef="updated_at">
+            <th mat-header-cell *matHeaderCellDef> Updated Date </th>
+            <td mat-cell *matCellDef="let user"> {{user.updatedAt | date: 'yyyy/MM/dd a'}} </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let user">
+                <button mat-icon-button [routerLink]="['/edit-profile', user._id]" color="primary">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteUser(user)" color="warn">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedUserColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedUserColumns;"></tr>
+    </ng-container>
+</table>

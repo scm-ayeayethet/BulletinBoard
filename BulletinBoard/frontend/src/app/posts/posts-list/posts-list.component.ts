@@ -1,10 +1,8 @@
-import { ViewChild, Component, OnInit } from '@angular/core';
+import { ViewChild, Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { PostModalComponent } from 'src/app/components/post-modal/post-modal.component';
 import { PostService } from 'src/app/services/post.service';
 
 @Component({
@@ -17,13 +15,19 @@ export class PostsListComponent implements OnInit {
   keyword = "";
   postArr: any = [];
   postLists: any;
+  currentPage = 0;
+  totalSize = 0;
+  pageSize = 5;
+  pageOptions = [5, 10, 15];
   public allPost: any = [];
   public eachData: any = [];
   public userInfo: any = [];
+  public postData: any = [];
   public postId: any;
   public dataSubject: any = null;
+  @Input() exporter: any;
 
-  dataSource!: MatTableDataSource<any>;
+  public dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = ['title', 'description', 'created_user_id', 'created_at', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -31,7 +35,6 @@ export class PostsListComponent implements OnInit {
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private postSvc: PostService
   ) {
     this.dataSubject = this.postSvc.dataSubject;
@@ -43,12 +46,23 @@ export class PostsListComponent implements OnInit {
     this.getPosts();
   }
 
-  getPosts() {
-    this.postSvc.getPosts().then(dist => {
+  public getPosts() {
+    this.postSvc.getPosts(this.currentPage, this.pageSize).then(dist => {
       this.allPost = dist.data;
+      this.allPost.map((result: any) => {
+        let res = {
+          Title: result.title,
+          Description: result.description,
+          Posted_User: result.created_user_id ? result.created_user_id["name"] : result.updated_user_id["name"],
+          Posted_Date: new Date(result.createdAt).toLocaleString()
+        }
+        this.postArr.push(res);
+      })
+      this.postData = this.postArr;
       this.dataSource = new MatTableDataSource(this.allPost);
       this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
+      this.totalSize = this.allPost.length;
     })
   }
 
@@ -56,21 +70,13 @@ export class PostsListComponent implements OnInit {
     const payload = {
       title: this.keyword,
     }
-    this.postSvc.findByName(payload).then((dist) => {
+    this.postSvc.findByName(this.currentPage, this.pageSize, payload).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
+      this.totalSize = this.postLists.length;
     })
-  }
-
-  //post-delete
-  public deletePost(data: any) {
-    const postId = data._id;
-    this.postSvc.deletePost(postId).then((dist) => {
-      this.router.navigate(["/posts-list"]);
-      this.snackBar.open('Post Deleted Successfully!', '', { duration: 3000 });
-    });
   }
 
   //post upload
@@ -78,17 +84,4 @@ export class PostsListComponent implements OnInit {
     this.router.navigate(['/upload-post']);
   }
 
-  //post title details
-  postDetail(data: any) {
-    this.dialog.open(PostModalComponent, {
-      width: '40%',
-      data: {
-        title: data.title,
-        description: data.description,
-        status: data.status,
-        posted_user: data.created_user_id ? data.created_user_id["name"] : data.updated_user_id["name"],
-        posted_date: data.createdAt ? data.createdAt : data.updatedAt,
-      }
-    });
-  }
 }

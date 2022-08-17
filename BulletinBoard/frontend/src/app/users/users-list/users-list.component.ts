@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
-import { ListModalComponent } from 'src/app/components/list-modal/list-modal.component';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -16,7 +15,7 @@ import { UserService } from 'src/app/services/user.service';
 export class UsersListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'email', 'created_user_id', 'phone', 'dob', 'address', 'created_at', 'updated_at', 'action'];
-  dataSource!: MatTableDataSource<any>;
+  public dataSource!: MatTableDataSource<any>;
   userList: any = [];
   infoList: any = [];
   eachUser: any;
@@ -26,13 +25,15 @@ export class UsersListComponent implements OnInit {
   fromDate = "";
   toDate = "";
   today = new Date();
+  currentPage = 0;
+  totalSize = 0;
+  pageSize = 5;
+  pageOptions = [5, 10, 15];
 
   public dataSubject: any = null;
 
   constructor(
     private router: Router,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private userSvc: UserService
   ) {
     this.dataSubject = this.userSvc.dataSubject;
@@ -45,18 +46,12 @@ export class UsersListComponent implements OnInit {
   }
 
   getUserData() {
-    this.userSvc.getUsers().then((dist) => {
+    this.userSvc.getUsers(this.currentPage, this.pageSize).then((dist) => {
       this.userList = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.userList);
       this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
-    });
-  }
-
-  deleteUserData(userId: any) {
-    this.userSvc.deleteUser(userId).then((dist) => {
-      this.router.navigate(["/users-list"]);
-      this.snackBar.open('User Deleted Successfully!', '', { duration: 3000 });
+      this.totalSize = this.userList.length;
     });
   }
 
@@ -66,27 +61,14 @@ export class UsersListComponent implements OnInit {
     this.email ? payload['email'] = this.email : '';
     this.fromDate ? payload['fromDate'] = moment(this.fromDate).format('YYYY/MM/DD') : '';
     this.toDate ? payload['toDate'] = moment(this.toDate).format('YYYY/MM/DD') : '';
-    this.userSvc.findByName(payload).then((dist) => {
+    this.userSvc.findByName(this.currentPage, this.pageSize, payload).then((dist) => {
       this.userList = dist.data;
       this.dataSource.data = this.userList;
       this.dataSource.paginator = this.paginator;
+      this.totalSize = this.userList.length;
     })
   }
-  
-  userDetail(data: any) {
-    this.dialog.open(ListModalComponent, {
-      width: '40%',
-      data: {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        address: data.address,
-        dob: new Date(data.dob).toLocaleString(),
-        createdAt: new Date(data.createdAt).toLocaleString(),
-        updatedAt: new Date(data.updatedAt).toLocaleString()
-      }
-    });
-  }
+
   onClickUserCreate() {
     this.router.navigate(['/user']);
   }

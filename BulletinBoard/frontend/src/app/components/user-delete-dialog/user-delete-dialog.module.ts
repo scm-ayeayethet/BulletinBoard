@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LoginRoutingModule } from './login-routing.module';
+import { UserDeleteDialogRoutingModule } from './user-delete-dialog-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularmaterialsModule } from 'src/app/angularmaterials.module';
-import { LoginComponent } from './login.component';
+import { UserDeleteDialogComponent } from './user-delete-dialog.component';
 
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [UserDeleteDialogComponent],
   imports: [
     CommonModule,
-    LoginRoutingModule,
+    UserDeleteDialogRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     AngularmaterialsModule
   ]
 })
-export class LoginModule { }
+export class UserDeleteDialogModule { }

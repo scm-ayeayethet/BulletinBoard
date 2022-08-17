@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UploadCsvComponent } from './upload-csv.component';
 
-const routes: Routes = [{
-  path: '',
-  component: UploadCsvComponent
-}];
+const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UploadCsvRoutingModule { }
+export class PostDeleteDialogRoutingModule { }

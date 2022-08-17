@@ -45,14 +45,10 @@ export class UserCreateConfirmComponent implements OnInit {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
-      password: ['', [
-        Validators.required,
-        Validators.pattern('(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$')]],
+      password: ['', [Validators.required, Validators.pattern('(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$')]],
       confirmPwd: ['', [Validators.required, MustMatch]],
       type: [''],
-      phone: ['', [Validators.required,
-      Validators.pattern("^[0-9]{11}$")
-      ]],
+      phone: ['', [Validators.required, Validators.pattern("^[0-9]{11}$")]],
       dob: [''],
       address: [''],
       profile: ['', [Validators.required]]

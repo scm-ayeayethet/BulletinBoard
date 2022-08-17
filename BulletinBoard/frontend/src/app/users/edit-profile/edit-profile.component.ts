@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -28,7 +28,6 @@ export class EditProfileComponent implements OnInit {
   public existingUser: any;
 
   constructor(
-    private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private userSvc: UserService
@@ -107,7 +106,7 @@ export class EditProfileComponent implements OnInit {
       formData.append('updated_user_id', this.userID);
 
       this.userSvc.updateUser(formData, id).then((dist) => {
-        this.router.navigate(['/user-profile/' + id]);
+        this.router.navigate(['users-list']);
       })
     }
     if (this.userForm.valid) {

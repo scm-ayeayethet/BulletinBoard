@@ -21,17 +21,18 @@ export class ResetPasswordComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private authSvc: AuthService
-  ) { }
-
-  ngOnInit(): void {
-
+  ) {
     this.resetPwdForm = new FormGroup({
       password: new FormControl('', Validators.required),
       confirmPassword: new FormControl('', Validators.required),
     });
+  }
+
+  ngOnInit(): void {
     this.userId = this.activatedRoute.snapshot.params['userId'];
     this.token = this.activatedRoute.snapshot.params['token'];
-
+    console.log(this.userId);
+    console.log(this.token);
     this.authSvc.resetPassword(this.userId, this.token).then((data: any) => {
       this.resetPwdForm = new FormGroup({
         password: new FormControl('', Validators.required),

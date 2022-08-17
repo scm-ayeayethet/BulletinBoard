@@ -53,10 +53,13 @@ export const logoutService = (req: any, res: Response) => {
 export const forgetPasswordService = async (req: any, res: Response) => {
   try {
     const user = await User.findOne({ email: req.body.email });
+    console.log('email', req.body.email);
+    console.log('user', user);
     if (!user)
       return res.status(400).send("Email does not exist");
 
-    let token = await PasswordReset.findOne({ userId: user._id });
+    let token = await PasswordReset.findOne({ email: req.body.email });
+    console.log('token', token);
     if (!token) {
       token = await new PasswordReset({
         email: req.body.email,

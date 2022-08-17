@@ -1,0 +1,13 @@
+table {
+  width: 100%;
+
+  .title {
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .title:hover {
+    color: #0000ff;
+  }
+}
