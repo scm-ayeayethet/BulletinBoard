@@ -57,7 +57,13 @@ export class ChangePasswordComponent implements OnInit {
         confirmPassword: this.passwordForm.controls['confirmPassword'].value
       };
       this.authSvc.passwordChange(this.id, payload, this.token).then((dist) => {
-        this.router.navigate(['/edit-profile/' + this.id, { msg: 'Success' }])
+        this.authSvc.logout().then((dist: any) => {
+          localStorage.removeItem('userId');
+          localStorage.clear();
+          this.authSvc.isLoggedIn();
+          this.router.navigate(['/login']);
+        });
+        //this.router.navigate(['/edit-profile/' + this.id, { msg: 'Success' }])
       })
     }
   }

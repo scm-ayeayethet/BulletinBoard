@@ -103,10 +103,7 @@ export class ListsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.postSvc.deletePost(postId).then((dist) => {
-          this.router.navigate(['posts-list'])
-            .then(() => {
-              window.location.reload();
-            });
+          this.router.navigate(['posts-list',{ 'msg' : "delete success"}])
         })
       }
     });
@@ -122,10 +119,7 @@ export class ListsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.userSvc.deleteUser(userId).then((dist) => {
-          this.router.navigate(['users-list'])
-            .then(() => {
-              window.location.reload();
-            });
+          this.router.navigate(['users-list',{ 'msg' : "delete success"}])
         })
       }
     });

@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
     private authSvc: AuthService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (this.router.url === '/login' || this.router.url === '/' || this.router.url === '/create-account') {
+        if (this.router.url === '/login' || this.router.url === '/' || this.router.url === '/create-account'
+          || this.router.url === '/forget-password') {
           this.showNavBar = false;
         } else {
           this.showNavBar = true;

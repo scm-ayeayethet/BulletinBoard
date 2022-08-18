@@ -33,10 +33,10 @@
 
     <mat-form-field class="form-group" appearance="outline">
       <mat-label>Date Of Birth</mat-label>
-      <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]="picker1" formControlName="dob"
-        [max]="today">
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
+      <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]="picker" [max]="today"
+        formControlName="dob">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field class="form-group" appearance="outline">

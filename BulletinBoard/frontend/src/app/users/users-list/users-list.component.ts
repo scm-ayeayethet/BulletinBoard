@@ -1,5 +1,5 @@
 import { ViewChild, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,6 +34,7 @@ export class UsersListComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route : ActivatedRoute,
     private userSvc: UserService
   ) {
     this.dataSubject = this.userSvc.dataSubject;
@@ -43,6 +44,12 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserData();
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('msg') === "delete success") {
+        this.getUserData();
+      }
+    })
   }
 
   getUserData() {

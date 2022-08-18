@@ -1,5 +1,5 @@
 import { ViewChild, Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,6 +34,7 @@ export class PostsListComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     private postSvc: PostService
   ) {
@@ -44,6 +45,12 @@ export class PostsListComponent implements OnInit {
     const userLoginData = JSON.parse(localStorage.getItem("userLoginData") || "");
     this.userInfo = userLoginData._id;
     this.getPosts();
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('msg') === "delete success") {
+        this.getPosts();
+      }
+    })
   }
 
   public getPosts() {
