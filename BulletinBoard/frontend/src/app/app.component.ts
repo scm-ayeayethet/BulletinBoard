@@ -15,12 +15,12 @@ export class AppComponent implements OnInit {
   userInfo: any;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private authSvc: AuthService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (this.router.url === '/login' || this.router.url === '/' || this.router.url === '/create-account'
-          || this.router.url === '/forget-password') {
+          || this.router.url === '/forget-password' || router.url.indexOf('/forget-password-update') !== -1) {
           this.showNavBar = false;
         } else {
           this.showNavBar = true;
